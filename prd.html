@@ -197,6 +197,16 @@
   @media (max-width: 560px){
     .meta-grid{grid-template-columns:1fr 1fr}
     td, th{padding:9px 10px; font-size:12.5px}
+    .bar{padding:8px 8px 8px 14px}
+    .tbl-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .tbl-wrap table.wide{min-width:600px}
+    .dr{padding:16px 16px}
+    .dr dl > div{grid-template-columns:52px 1fr; gap:8px}
+  }
+
+  @media (max-width: 430px){
+    .bar .right a.pill.dark{display:none}
+    .meta-grid{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -294,7 +304,7 @@
 
         <h3>目标拆成三层，各自定指标</h3>
         <div class="tbl-wrap">
-          <table>
+          <table class="wide">
             <thead><tr><th>层</th><th>要解决什么</th><th>主指标</th><th>门槛</th></tr></thead>
             <tbody>
               <tr><td class="k">消歧层</td><td>问句里的设备是哪个型号</td><td>型号确认准确率</td><td>≥ 80%</td></tr>
@@ -319,7 +329,7 @@
         <h2 class="sec"><b>03</b>用户与场景</h2>
         <p>同一个系统要服务三种完全不同的问法，它们的失败模式不一样，验收口径也不能共用一套。</p>
         <div class="tbl-wrap">
-          <table>
+          <table class="wide">
             <thead><tr><th>场景</th><th>典型问句</th><th>期望行为</th><th>当前失败模式</th></tr></thead>
             <tbody>
               <tr>
@@ -358,7 +368,7 @@
 
         <h3>P0 · 不修就没法日常用</h3>
         <div class="tbl-wrap">
-          <table>
+          <table class="wide">
             <thead><tr><th>ID</th><th>需求</th><th>依据</th><th>验收标准</th><th>状态</th></tr></thead>
             <tbody>
               <tr>
@@ -584,7 +594,7 @@
 
         <h3>两个数据集，各管一段</h3>
         <div class="tbl-wrap">
-          <table>
+          <table class="wide">
             <thead><tr><th>数据集</th><th>规模</th><th>用途</th><th>已知局限</th></tr></thead>
             <tbody>
               <tr>
@@ -609,7 +619,7 @@
 
         <h3>6 阶段消融（27 条标注）</h3>
         <div class="tbl-wrap">
-          <table>
+          <table class="wide">
             <thead><tr><th>阶段</th><th>增量组件</th><th>Recall@5</th><th>判断</th></tr></thead>
             <tbody>
               <tr><td class="k">S1</td><td>仅稠密检索</td><td>0.759</td><td>基线。型号字母数字混写时最弱</td></tr>
@@ -698,7 +708,7 @@
           这张表直接决定了 R-01 到 R-04 的优先级——不是竞品有我们就要有，而是缺了它用户就得在两个工具之间来回切。
         </p>
         <div class="tbl-wrap">
-          <table>
+          <table class="wide">
             <thead><tr><th>能力</th><th>成熟产品</th><th>本系统</th><th>结论</th></tr></thead>
             <tbody>
               <tr>
