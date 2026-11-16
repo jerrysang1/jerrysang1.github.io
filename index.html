@@ -1,0 +1,2044 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>张博｜AI 产品实习生作品集</title>
+<meta name="description" content="张博的 AI 产品作品集：CowCode 终端 AI 编程助手、PawPilot 宠物零售服务智能体、设备手册检索问答系统（RAG）。三套个人项目，从需求拆解、方案取舍到评测体系与迭代。" />
+<meta property="og:title" content="张博｜AI 产品实习生作品集" />
+<meta property="og:description" content="把问题拆清楚，再让 AI 出手。三套 AI 应用从 0 到 1，每个结论都带口径与样本量。" />
+<meta property="og:type" content="website" />
+<style>
+  :root{
+    --bg:#f7f5ef;
+    --surface:rgba(255,255,255,.78);
+    --surface-solid:#fffefa;
+    --ink:#171813;
+    --muted:#6b6d63;
+    --line:rgba(23,24,19,.10);
+    --green:#bcd9b7;
+    --green-strong:#2d5b42;
+    --lavender:#d7c9ee;
+    --peach:#f3c9ae;
+    --yellow:#ecd987;
+    --blue:#c9dce9;
+    --shadow:0 18px 60px rgba(39,41,34,.08);
+    --radius-xl:42px;
+    --radius-lg:28px;
+    --radius-md:20px;
+    --max:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(215,201,238,.22), transparent 30%),
+      radial-gradient(circle at 90% 18%, rgba(188,217,183,.28), transparent 28%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  button,input{font:inherit}
+  button{color:inherit}
+  h1,h2,h3,h4,p,ul{margin:0}
+  ul{padding-left:1.15em}
+  ::selection{background:rgba(188,217,183,.7)}
+
+  .site-shell{width:min(calc(100% - 36px), var(--max)); margin:0 auto}
+  section[id]{scroll-margin-top:96px}
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky; top:14px; z-index:50;
+    width:min(calc(100% - 36px), var(--max));
+    margin:14px auto 0;
+    padding:10px 14px 10px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    border:1px solid rgba(255,255,255,.85);
+    background:rgba(255,254,250,.74);
+    -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+    border-radius:999px;
+    box-shadow:0 10px 34px rgba(35,36,31,.07);
+  }
+  .brand{font-weight:800; letter-spacing:-.02em; white-space:nowrap; font-size:16px}
+  .brand span{color:var(--green-strong); font-weight:700}
+  nav{display:flex; align-items:center; gap:4px}
+  nav a{padding:9px 14px; border-radius:999px; color:var(--muted); font-size:14px; transition:.2s ease}
+  nav a:hover, nav a.active{background:var(--ink); color:#fff}
+  .top-contact{
+    border:0; background:var(--green); border-radius:999px;
+    padding:10px 16px; font-weight:750; cursor:pointer; transition:.2s ease;
+    font-size:14px;
+  }
+  .top-contact:hover{background:#a9cfa3; transform:translateY(-1px)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    display:grid; grid-template-columns:1.08fr .92fr; gap:52px; align-items:center;
+    padding:78px 0 58px; min-height:74vh;
+  }
+  .name-kicker{font-size:16px; font-weight:700; color:#5f625b; margin-bottom:12px}
+  .name-kicker .age-text{font-weight:600; color:#8a8d83}
+  .role-line{font-size:15px; color:#666a61; margin-top:18px; font-weight:600}
+  .hero h1{
+    margin:0;
+    font-size:clamp(40px, 5.2vw, 68px);
+    line-height:1.06; letter-spacing:-.05em; font-weight:900;
+  }
+  .hero h1 .outline{
+    display:inline-block; color:transparent;
+    margin-top:8px; font-size:.82em; letter-spacing:-.04em;
+    -webkit-text-stroke:1.4px var(--ink);
+  }
+  .hero-copy{font-size:16.5px; max-width:600px; margin-top:24px; color:#3f423b}
+  .hero-copy strong{background:linear-gradient(transparent 62%, rgba(236,217,135,.85) 62%); font-weight:800}
+  .pill-row{display:flex; flex-wrap:wrap; gap:9px; margin:24px 0 26px}
+  .pill{
+    display:inline-flex; align-items:center; min-height:36px; padding:7px 14px;
+    border-radius:999px; background:rgba(255,255,255,.62);
+    border:1px solid rgba(23,24,19,.09); color:#3d4039;
+    font-size:13.5px; font-weight:700;
+  }
+  .pill:nth-child(2n){background:rgba(215,201,238,.35)}
+  .pill:nth-child(3n){background:rgba(243,201,174,.36)}
+  .hero-actions{display:flex; flex-wrap:wrap; gap:11px}
+  .btn{
+    min-height:50px; padding:0 22px; border:1px solid transparent; border-radius:999px;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight:800; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    font-size:15px;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--ink); color:#fff; box-shadow:0 12px 24px rgba(23,24,19,.12)}
+  .btn-secondary{background:rgba(255,255,255,.5); border-color:var(--line)}
+
+  /* identity panel */
+  .id-panel{
+    position:relative; padding:34px 32px; border-radius:var(--radius-xl);
+    background:linear-gradient(150deg, #efe7fa 0%, #f7e6d8 52%, #dcebd8 100%);
+    border:1px solid rgba(255,255,255,.9); box-shadow:var(--shadow);
+  }
+  .id-panel::after{
+    content:""; position:absolute; inset:14px; border-radius:32px;
+    border:1px solid rgba(255,255,255,.55); pointer-events:none;
+  }
+  .id-panel h2{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--green-strong); font-weight:800}
+  .id-list{list-style:none; padding:0; margin:18px 0 0; display:grid; gap:13px}
+  .id-list li{display:grid; grid-template-columns:64px 1fr; gap:12px; align-items:start; font-size:14.5px}
+  .id-list .k{color:#5d6159; font-weight:700; font-size:13px; padding-top:2px}
+  .id-list .v{font-weight:650; color:#22241f}
+  .id-list .v small{display:block; font-weight:500; color:#6b6d63; font-size:12.5px; letter-spacing:0}
+  .id-stats{display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; padding-top:20px; border-top:1px dashed rgba(23,24,19,.14)}
+  .meta-chip{
+    font-size:12.5px; font-weight:750; color:#3f4a41; background:rgba(255,255,255,.72);
+    border:1px solid rgba(23,24,19,.09); border-radius:999px; padding:7px 12px;
+  }
+
+  /* ---------- generic section ---------- */
+  .section{padding:56px 0}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:12.5px; font-weight:800; text-transform:uppercase; letter-spacing:.14em;
+    color:var(--green-strong);
+  }
+  .eyebrow::before{content:""; width:34px; height:2px; background:currentColor; border-radius:999px}
+  .section-heading{
+    display:grid; grid-template-columns:.62fr 1.38fr; gap:40px; align-items:end;
+    margin-bottom:38px;
+  }
+  .section-heading h2{font-size:clamp(32px, 4vw, 54px); line-height:1.02; letter-spacing:-.045em; margin-top:12px; font-weight:880}
+  .section-heading p{color:var(--muted); font-size:16.5px; max-width:720px}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:22px; align-items:start}
+  .card{
+    border-radius:var(--radius-xl); background:var(--surface);
+    border:1px solid rgba(255,255,255,.86); box-shadow:var(--shadow); overflow:hidden;
+  }
+  .about-main{padding:44px 44px 40px}
+  .about-main .lead{font-size:clamp(19px, 2.1vw, 24px); line-height:1.5; letter-spacing:-.02em; font-weight:750; color:#22241f; text-wrap:balance}
+  .about-main p+p{margin-top:18px}
+  .about-main p{color:#42453d; font-size:15.5px}
+  .about-main p .hl{font-weight:800; color:var(--ink); background:linear-gradient(transparent 64%, rgba(215,201,238,.75) 64%)}
+  .about-side{padding:36px 34px; display:flex; flex-direction:column; gap:24px}
+  .about-extra{grid-column:1 / -1; padding:32px 40px 34px}
+  .extra-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:18px}
+  .extra-head h3{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--green-strong); font-weight:800}
+  .extra-head .role{font-size:14.5px; font-weight:750; color:#22241f}
+  .extra-head .when{font-size:12.5px; color:#8b8e84}
+  .extra-head .extra-scale{margin-left:auto; font-size:12px; font-weight:700; color:#2d5b42; background:rgba(188,217,183,.45); border-radius:999px; padding:5px 12px}
+  .extra-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .extra-item{border:1px solid rgba(23,24,19,.08); border-radius:18px; padding:16px 18px; background:rgba(255,255,255,.62)}
+  .extra-item b{display:block; font-size:15px; letter-spacing:-.01em}
+  .extra-item .num{display:block; margin-top:7px; font-size:12.5px; color:#2d5b42; font-weight:750; line-height:1.55}
+  .extra-item p{margin-top:9px; font-size:13px; color:#6b6d63; line-height:1.7}
+  .side-block h3{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--green-strong); font-weight:800; margin-bottom:12px}
+  .side-block .tag-wrap{display:flex; flex-wrap:wrap; gap:7px}
+  .tag{font-size:12.5px; font-weight:700; padding:6px 11px; border-radius:999px; background:rgba(255,255,255,.7); border:1px solid rgba(23,24,19,.08); color:#3d4039}
+  .side-note{font-size:13.5px; color:var(--muted); margin-top:auto; padding-top:6px; border-top:1px dashed rgba(23,24,19,.12)}
+
+  /* ---------- ask ---------- */
+  .ask-shell{
+    border-radius:var(--radius-xl); padding:46px 44px 40px;
+    background:linear-gradient(160deg, #1e2a22 0%, #24322a 55%, #2d5b42 100%);
+    color:#fff; box-shadow:0 26px 70px rgba(29,42,34,.22);
+  }
+  .ask-head h2{font-size:clamp(26px, 3.2vw, 40px); letter-spacing:-.04em; line-height:1.1; margin:10px 0 8px; font-weight:850}
+  .ask-head p{color:rgba(255,255,255,.72); font-size:15px; max-width:640px}
+  .ask-shell .eyebrow{color:var(--green)}
+  .search-form{
+    display:flex; align-items:center; gap:10px; margin-top:26px;
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+    border-radius:999px; padding:8px 8px 8px 18px;
+  }
+  .search-form .search-icon{color:var(--green); font-size:15px}
+  .search-form input{
+    flex:1; min-width:0; background:transparent; border:0; outline:none;
+    color:#fff; font-size:15px; padding:10px 0;
+  }
+  .search-form input::placeholder{color:rgba(255,255,255,.45)}
+  .search-form button{
+    border:0; background:var(--green); color:#1c2a21; font-weight:800;
+    border-radius:999px; padding:12px 22px; cursor:pointer; white-space:nowrap;
+  }
+  .search-form button:hover{background:#cbe6c6}
+  .quick-questions{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+  .quick-questions button{
+    border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.07);
+    color:rgba(255,255,255,.85); border-radius:999px; padding:8px 13px;
+    font-size:13px; font-weight:650; cursor:pointer; transition:.18s ease;
+  }
+  .quick-questions button:hover{background:rgba(255,255,255,.16); color:#fff}
+  .answer-panel{
+    display:flex; gap:16px; margin-top:24px; padding:24px;
+    background:rgba(255,255,255,.94); color:var(--ink);
+    border-radius:var(--radius-lg);
+  }
+  .ai-dot{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%;
+    background:var(--green); color:#233a2c; font-weight:900; font-size:13px;
+    display:grid; place-items:center; letter-spacing:.02em;
+  }
+  .answer-panel strong{display:block; font-size:16px; letter-spacing:-.01em}
+  .answer-panel p{font-size:14.5px; color:#40433c; margin-top:8px; white-space:pre-wrap}
+  .answer-meta{font-size:12px; color:#8b8e84; margin-top:12px; letter-spacing:.02em}
+  .answer-contact-btn{
+    margin-top:14px; border:1px solid var(--line); background:var(--ink); color:#fff;
+    border-radius:999px; padding:10px 16px; font-weight:800; font-size:13px; cursor:pointer;
+  }
+
+  /* ---------- projects ---------- */
+  .projects{display:grid; gap:26px}
+  .project-card{
+    display:grid; grid-template-columns:1.02fr .98fr;
+    border-radius:48px; background:var(--surface-solid);
+    border:1px solid rgba(255,255,255,.92); box-shadow:var(--shadow);
+    overflow:hidden; min-height:520px;
+  }
+  .project-card:nth-child(even) .project-visual{order:2}
+  .project-card:nth-child(even) .project-content{order:1}
+  .project-visual{padding:24px}
+  .stage{
+    height:100%; min-height:470px; border-radius:32px; padding:26px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .stage-1{background:linear-gradient(150deg,#d9c9ef,#f6ddc7 48%,#bddab8)}
+  .stage-2{background:linear-gradient(150deg,#c9dce9,#bddab8 50%,#efe7bc)}
+  .stage-3{background:linear-gradient(150deg,#f3c9ae,#ecd987 45%,#d7c9ee)}
+  .visual-badge{
+    position:absolute; left:22px; bottom:22px; z-index:3;
+    background:rgba(23,24,19,.86); color:#fff; font-size:13px; font-weight:750;
+    padding:9px 15px; border-radius:999px; letter-spacing:.01em;
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  }
+
+  /* mock windows */
+  .mock{
+    width:100%; max-width:424px; border-radius:18px; overflow:hidden;
+    background:rgba(255,254,250,.96); box-shadow:0 22px 44px rgba(35,36,31,.16);
+    border:1px solid rgba(255,255,255,.9); font-size:13px;
+  }
+  .mock-bar{display:flex; align-items:center; gap:6px; padding:10px 13px; border-bottom:1px solid rgba(23,24,19,.08); background:rgba(247,245,239,.9)}
+  .mock-bar i{width:8px; height:8px; border-radius:50%; background:rgba(23,24,19,.18); display:block}
+  .mock-bar .mock-title{margin-left:8px; font-size:11.5px; color:#8b8e84; font-weight:650; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .mock-body{padding:14px 15px 16px; display:grid; gap:7px; line-height:1.55}
+  .term-line{display:flex; gap:7px; align-items:baseline; color:#2c2f29}
+  .term-line .p{color:var(--green-strong); font-weight:800}
+  .dim{color:#8b8e84}
+  .tk{font-size:10.5px; font-weight:800; padding:1px 6px; border-radius:6px; background:rgba(188,217,183,.55); color:#26402f; letter-spacing:.03em}
+  .tk.warn{background:rgba(243,201,174,.65); color:#7a4325}
+  .tk.blue{background:rgba(201,220,233,.7); color:#274a5c}
+  .ok{color:var(--green-strong); font-weight:750}
+  .prompt-row{
+    margin-top:4px; display:flex; flex-wrap:wrap; gap:6px; align-items:center;
+    background:rgba(236,217,135,.28); border:1px dashed rgba(23,24,19,.18);
+    border-radius:12px; padding:9px 11px;
+  }
+  .prompt-row span:first-child{font-weight:750; color:#3a3d35; font-size:12px; flex:1 1 100%}
+  .chip-ok{background:#2d5b42; color:#fff; font-size:11.5px; font-weight:750; padding:4px 10px; border-radius:999px}
+  .chip-plain{background:rgba(255,255,255,.85); border:1px solid rgba(23,24,19,.14); font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:999px; color:#4a4d45}
+
+  .bubble{max-width:86%; padding:9px 12px; border-radius:14px; font-size:12.5px; line-height:1.5}
+  .bubble.me{margin-left:auto; background:#2d5b42; color:#fff; border-bottom-right-radius:4px}
+  .bubble.ai{background:rgba(201,220,233,.4); border:1px solid rgba(201,220,233,.9); border-bottom-left-radius:4px}
+  .ev{display:grid; gap:5px; margin-top:2px}
+  .ev-row{display:flex; align-items:center; gap:7px; font-size:11.5px; color:#40433c}
+  .ev-row .bar{flex:1; height:5px; border-radius:999px; background:rgba(23,24,19,.1); overflow:hidden}
+  .ev-row .bar i{display:block; height:100%; background:var(--green-strong); border-radius:999px}
+  .gate{display:flex; gap:7px; align-items:center; margin-top:4px; padding:8px 10px; border-radius:11px; background:rgba(243,201,174,.35); border:1px solid rgba(243,201,174,.8); font-size:11.5px; font-weight:700; color:#7a4325}
+  .tool-row{display:flex; gap:7px; align-items:center; font-size:11.5px; color:#2c2f29; font-weight:700}
+
+  .eval-row{display:grid; gap:5px; margin-bottom:10px}
+  .eval-row .lab{display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:#3a3d35}
+  .eval-track{display:grid; gap:4px}
+  .eval-track .t{height:7px; border-radius:999px; background:rgba(23,24,19,.1); overflow:hidden}
+  .eval-track .t i{display:block; height:100%; border-radius:999px}
+  .fill-before{background:#b9a9c7}
+  .fill-after{background:var(--green-strong)}
+  .eval-legend{display:flex; gap:12px; font-size:11px; color:#6b6d63; margin-top:6px}
+  .eval-legend .sw{display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:4px; vertical-align:-1px}
+
+  .project-content{padding:46px 44px; display:flex; flex-direction:column; justify-content:center}
+  .project-index{font-size:12.5px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; color:var(--green-strong)}
+  .live-label{
+    display:inline-flex; align-items:center; width:fit-content; margin-top:12px;
+    font-size:11.5px; font-weight:800; letter-spacing:.04em; color:#2d5b42;
+    background:rgba(188,217,183,.6); border-radius:999px; padding:5px 11px;
+  }
+  .project-content h3{margin:14px 0 14px; font-size:clamp(26px, 3vw, 36px); line-height:1.14; letter-spacing:-.038em; font-weight:850}
+  .project-content > p{color:var(--muted); font-size:15px}
+  .project-result{
+    margin-top:16px !important; padding-left:14px; border-left:3px solid var(--green);
+    color:#2b2e28 !important; font-weight:750; font-size:14px !important; line-height:1.6;
+  }
+  .project-content .pill-row{margin:16px 0 0}
+  .project-content .pill{min-height:30px; padding:5px 11px; font-size:12px}
+  .project-actions{display:flex; flex-wrap:wrap; gap:9px; margin-top:24px}
+  .project-actions button, .project-actions a{
+    border:1px solid var(--line); background:transparent; padding:11px 15px;
+    border-radius:999px; font-weight:800; cursor:pointer; font-size:13.5px; transition:.18s ease;
+  }
+  .project-actions button:hover, .project-actions a:hover{background:rgba(23,24,19,.05)}
+  .project-actions .dark{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .project-actions .dark:hover{background:#33352d}
+
+  /* ---------- footer ---------- */
+  .footer-card{
+    margin:56px 0 26px; padding:52px;
+    border-radius:48px; background:var(--green);
+    display:grid; grid-template-columns:1fr auto; gap:30px; align-items:center;
+  }
+  .footer-card h2{font-size:clamp(28px, 3.6vw, 44px); line-height:1.2; letter-spacing:-.042em; font-weight:880}
+  .footer-card p{margin-top:14px; max-width:660px; color:#365142; font-size:15px}
+  footer{padding:16px 0 40px; display:flex; justify-content:space-between; gap:16px; color:var(--muted); font-size:13.5px; flex-wrap:wrap}
+
+  /* ---------- dialog ---------- */
+  dialog{
+    width:min(940px, calc(100% - 28px)); max-height:88vh; border:0; padding:0;
+    border-radius:34px; background:var(--surface-solid); color:var(--ink);
+    box-shadow:0 36px 120px rgba(15,16,13,.28);
+  }
+  dialog::backdrop{background:rgba(13,14,12,.55); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}
+  .modal-wrap{padding:32px 34px 36px; max-height:88vh; overflow:auto}
+  .modal-top{display:flex; justify-content:space-between; align-items:flex-start; gap:20px}
+  .modal-top h3{margin:8px 0 0; font-size:clamp(24px, 3.2vw, 34px); line-height:1.14; letter-spacing:-.035em; font-weight:850}
+  .modal-close{
+    flex:0 0 auto; border:0; width:42px; height:42px; border-radius:50%;
+    background:#eeece5; font-size:20px; cursor:pointer; line-height:1; color:#3f423b;
+  }
+  .modal-close:hover{background:#e3e0d7}
+  .modal-meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+  .tabs{display:flex; gap:6px; margin:24px 0 20px; border-bottom:1px solid var(--line); padding-bottom:12px; flex-wrap:wrap}
+  .tab{
+    border:1px solid transparent; background:transparent; padding:9px 15px; border-radius:999px;
+    font-size:13.5px; font-weight:800; cursor:pointer; color:var(--muted);
+  }
+  .tab.active{background:var(--ink); color:#fff}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block; animation:fade .28s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+  .tab-panel h4{font-size:12.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--green-strong); font-weight:800; margin:22px 0 10px}
+  .tab-panel h4:first-child{margin-top:0}
+  .tab-panel p{font-size:14.5px; color:#42453d; margin-bottom:10px}
+  .tab-panel ul{font-size:14.5px; color:#42453d; display:grid; gap:7px; margin:0 0 10px}
+  .tab-panel li::marker{color:var(--green-strong)}
+  .kv{display:grid; grid-template-columns:120px 1fr; gap:10px 16px; font-size:14px; margin-bottom:8px}
+  .kv .k{color:#7a7d73; font-weight:700; font-size:13px; padding-top:2px}
+  .kv .v{color:#2c2f29}
+  .metric-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin:4px 0 14px}
+  .metric-cell{background:rgba(188,217,183,.22); border:1px solid rgba(188,217,183,.7); border-radius:16px; padding:14px 16px}
+  .metric-cell b{display:block; font-size:21px; letter-spacing:-.03em; font-weight:880; color:#223f2f; line-height:1.2}
+  .metric-cell span{font-size:12px; color:#5c6560}
+  .note{
+    font-size:13px; color:#6b6d63; background:rgba(236,217,135,.24);
+    border:1px dashed rgba(23,24,19,.16); border-radius:14px; padding:12px 14px; margin-top:14px;
+  }
+  .note b{color:#4a4d45}
+
+
+  /* ---------- 界面画廊 ---------- */
+  .modal-top-right{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+  .modal-gal{
+    border:1px solid transparent; background:rgba(188,217,183,.55); border-radius:999px; padding:9px 16px;
+    font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap; color:#23503a;
+  }
+  .modal-gal:hover{background:rgba(188,217,183,.85)}
+  #galleryDialog{width:min(1120px, calc(100% - 24px)); padding:0; max-height:92vh; overflow:auto}
+  .gal{padding:24px 28px 22px}
+  .gal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+  .gal-top-right{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+  .gal-top h3{margin:8px 0 0; font-size:clamp(20px,2.6vw,28px); line-height:1.2; letter-spacing:-.03em; font-weight:850}
+  .gal-top p{margin:8px 0 0; font-size:13.5px; color:var(--muted); max-width:700px}
+  .gal-stage{
+    position:relative; border-radius:18px; overflow:hidden;
+    background:#0d0f0b; border:1px solid rgba(23,24,19,.14);
+    aspect-ratio:16 / 10; box-shadow:0 20px 50px rgba(23,24,19,.14);
+  }
+  .gal-stage iframe{
+    position:absolute; top:0; left:0; width:1280px; height:800px; border:0;
+    transform-origin:top left; background:#fff;
+  }
+  .gal-thumbs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 14px}
+  .gal-thumbs button{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--line);
+    background:#fff; border-radius:12px; padding:9px 13px; cursor:pointer;
+    font-size:12.5px; font-weight:700; color:#4a4d45; transition:.16s ease;
+  }
+  .gal-thumbs button span.n{
+    font-size:11px; font-weight:900; color:#8b8e84; letter-spacing:.06em;
+  }
+  .gal-thumbs button:hover{background:rgba(23,24,19,.04)}
+  .gal-thumbs button.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .gal-thumbs button.on span.n{color:rgba(255,255,255,.6)}
+  .gal-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap}
+  .gal-foot .cap{font-size:12.5px;color:#7a7d73;max-width:760px;line-height:1.6}
+  .gal-hint{display:none}
+  @media (max-width:760px){ .gal-hint{display:block; margin-top:8px} }
+  .gal-nav{display:flex;gap:8px;align-items:center}
+  .gal-nav button{
+    border:1px solid var(--line); background:#fff; border-radius:999px; width:36px; height:36px;
+    cursor:pointer; font-size:15px; line-height:1;
+  }
+  .gal-nav button:hover{background:rgba(23,24,19,.05)}
+  .gal-nav .idx{font-size:12px;color:#8b8e84;font-variant-numeric:tabular-nums}
+
+  .toast{
+    position:fixed; left:50%; bottom:28px; transform:translate(-50%, 20px);
+    background:var(--ink); color:#fff; padding:12px 20px; border-radius:999px;
+    font-size:13.5px; font-weight:750; opacity:0; pointer-events:none; transition:.25s ease; z-index:99;
+  }
+  .toast.show{opacity:1; transform:translate(-50%, 0)}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1; transform:none}
+
+  @media (max-width:900px){
+    nav{display:none}
+    .hero,.about-grid,.project-card,.section-heading,.footer-card{grid-template-columns:1fr}
+    .hero{gap:34px; padding:60px 0 40px; min-height:0}
+    .id-panel{padding:28px 24px}
+    .project-card:nth-child(even) .project-visual,
+    .project-card:nth-child(even) .project-content{order:initial}
+    .project-visual{padding:16px}
+    .stage{min-height:360px; padding:18px}
+    .project-content{padding:32px 26px 38px}
+    .about-main{padding:32px 26px}
+    .about-side{padding:28px 26px}
+    .about-extra{padding:26px 22px 28px}
+    .extra-grid{grid-template-columns:1fr}
+    .extra-head .extra-scale{margin-left:0; margin-top:2px}
+    .ask-shell{padding:34px 24px 28px}
+    .section-heading{align-items:start; gap:16px}
+    .footer-card{padding:36px 26px; text-align:left}
+    .modal-wrap{padding:24px 20px 28px}
+    .kv{grid-template-columns:1fr}
+    .kv .k{padding-top:6px}
+  }
+  @media (max-width:560px){
+    .topbar{padding:8px 8px 8px 16px}
+    .brand span{display:none}
+    .hero h1{font-size:clamp(34px, 10vw, 46px)}
+    .project-card{border-radius:34px}
+    .stage{border-radius:24px; min-height:320px}
+    .visual-badge{left:14px; bottom:14px; font-size:12px; padding:7px 12px}
+    .footer-card{border-radius:34px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1; transform:none; transition:none}
+    .btn:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="#top" class="brand">ZB<span>· AI Product</span></a>
+  <nav aria-label="主导航">
+    <a href="#about">自我介绍</a>
+    <a href="#ask">问作品集</a>
+    <a href="#work">作品集</a>
+  </nav>
+  <button class="top-contact" data-copy="19840863620@163.com" type="button">联系我</button>
+</header>
+
+<main class="site-shell" id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="hero">
+    <div class="hero-copy-wrap">
+      <div class="name-kicker">张博 <span class="age-text">· 湖南大学 硕士在读（2028 届）</span></div>
+      <h1>需求先拆到能验收，<br /><span class="outline">再决定用什么模型。</span></h1>
+      <p class="role-line">求职方向：AI 产品实习生 ｜ 需求拆解 / 方案设计 / 评测迭代</p>
+      <p class="hero-copy">
+        本科工程造价，硕士结构工程，2025 年 9 月入学。这一年做了三个 AI 项目：终端编程助手、宠物零售售后智能体、设备手册检索问答。
+        PRD、原型、prompt 都是自己一步步磨出来的，每个项目从需求一直做到评测。
+      </p>
+      <div class="pill-row">
+        <span class="pill">需求拆解与 PRD</span>
+        <span class="pill">Agent 与 Workflow 怎么分工</span>
+        <span class="pill">RAG 与评测集</span>
+        <span class="pill">消融与 badcase 归因</span>
+        <span class="pill">拒答与转人工</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary">查看作品集</a>
+        <a href="#ask" class="btn btn-secondary">问问我的项目 ✦</a>
+      </div>
+    </div>
+
+    <aside class="id-panel" aria-label="简历速览">
+      <h2>At a Glance</h2>
+      <ul class="id-list">
+        <li><span class="k">学历</span><span class="v">湖南大学（985）· 结构工程 · 硕士在读<small>2025.09 – 2028.06</small></span></li>
+        <li><span class="k">本科</span><span class="v">西南交通大学（211）· 工程造价<small>2021.09 – 2025.06</small></span></li>
+        <li><span class="k">到岗</span><span class="v">每周 5 天 · 可实习 6 个月 · 可尽快到岗</span></li>
+        <li><span class="k">工具</span><span class="v">Figma / 墨刀 / 飞书文档 / Notion<small>Python、LangGraph、MCP 能自己搭 demo</small></span></li>
+        <li><span class="k">语言</span><span class="v">CET-6 · 可读英文技术文档与论文</span></li>
+      </ul>
+      <div class="id-stats">
+        <span class="meta-chip">3 套 AI 应用从 0 到 1</span>
+        <span class="meta-chip">3 套自建评测集</span>
+        <span class="meta-chip">全程独立完成</span>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section" id="about">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">About</div>
+        <h2>自我介绍</h2>
+      </div>
+      <p>工科的训练让我习惯先把条件算清楚再动手；做学生工作让我习惯把人凑齐、把会开完。产品岗每天要做的，大概就是这两件事。</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="card about-main">
+        <p class="lead">本科工程造价，硕士结构工程，学的是算量和验算。<br />转 AI 产品不是临时起意，是想长期做这件事。</p>
+        <p>从研一开始我就一直在用 AI 工具写代码、做小工具。用得越多越在意一件事：<span class="hl">同样一段模型能力，放进不同场景，价值差得很远</span>，有的只是让人打字快一点，有的能替掉一整个流程。判断它值不值得做、该怎么做，就是我想要的岗位。所以研一开学把方向定在 AI 产品，先从需求拆解和评测这两件最容易被跳过、又最先决定成败的事入手。</p>
+        <p>这一年除了课程，我把时间放在三个能完整跑通的 AI 项目上。它们不是课程作业，是我用来看自己能不能做这行的样本。做 RAG 那次尤其明显：卡住我的常常不是模型能力，是我自己没把问题拆到能验证的那一步，不知道错在哪一层，就只能一直改 prompt 猜。后来把评测补上，改动才有方向。</p>
+        <p>三个项目我用的都是同一个顺序：先写清楚给谁用、解决哪一步、这次不做什么，再列两三个方案比较成本和失效点，最后定验收标准和评估集。这个顺序不是想出来的，是返工换来的：RAG 第一版我只看整体准确率，局部退化被平均数盖住了，索引和看板都重做过一次。</p>
+        <p>也因为从需求到评测都是一个人做，我很清楚这些数字有多硬：27 条标注撑不起绝对结论，300 题的分布也不等于真实线上分布。所以每个项目的弹窗里我都把口径写了出来，不想让数字显得比实际更好看。</p>
+        <p>下一步想做的事很清楚：进一个真实业务里，把这三套东西放到有用户、有排期、有指标压力的环境里再跑一遍。</p>
+      </div>
+
+      <div class="card about-side">
+        <div class="side-block">
+          <h3>产品能力</h3>
+          <div class="tag-wrap">
+            <span class="tag">需求拆解</span>
+            <span class="tag">PRD 撰写</span>
+            <span class="tag">方案对比与取舍</span>
+            <span class="tag">验收口径设计</span>
+            <span class="tag">评估集构建</span>
+            <span class="tag">消融实验</span>
+            <span class="tag">badcase 归因</span>
+            <span class="tag">原型验证</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <h3>AI 能力边界</h3>
+          <div class="tag-wrap">
+            <span class="tag">RAG 适配场景</span>
+            <span class="tag">Agent vs Workflow</span>
+            <span class="tag">拒答与转人工</span>
+            <span class="tag">上下文工程</span>
+            <span class="tag">成本与延迟权衡</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <h3>能自己动手</h3>
+          <div class="tag-wrap">
+            <span class="tag">Python</span>
+            <span class="tag">LangGraph</span>
+            <span class="tag">MCP</span>
+            <span class="tag">SQL 取数</span>
+            <span class="tag">Claude Code</span>
+            <span class="tag">读日志定位 badcase</span>
+          </div>
+        </div>
+        <div class="side-block">
+          <h3>组织与协作</h3>
+          <div class="tag-wrap">
+            <span class="tag">活动策划与排期</span>
+            <span class="tag">跨部门对接</span>
+            <span class="tag">现场主持</span>
+            <span class="tag">团队分工与带教</span>
+            <span class="tag">报名与签到数据</span>
+          </div>
+        </div>
+        <p class="side-note">三个项目均为个人独立完成，无团队与线上用户；指标均来自自建评估集，口径随项目标注。</p>
+      </div>
+
+      <div class="card about-extra">
+        <div class="extra-head">
+          <h3>校园经历</h3>
+          <span class="role">西南交通大学 · 大学生学业与发展指导中心 · 部长</span>
+          <span class="when">2022.09 – 2023.06</span>
+          <span class="extra-scale">带 6 人团队 · 每学期 2 场活动 · 300+ 人次</span>
+        </div>
+        <div class="extra-grid">
+          <div class="extra-item">
+            <b>教授面对面</b>
+            <span class="num">每学期 4 期 · 4 位教授 · 200+ 人次参与</span>
+            <p>定议题、邀请教授、排档期、现场主持；每期把学生提的问题整理成议题清单，交给教务处跟进。</p>
+          </div>
+          <div class="extra-item">
+            <b>十大优秀毕业生评选</b>
+            <span class="num">2 个学院 · 20 位候选人 · 300+ 人到场</span>
+            <p>写评审规则和时间表，协调 6 位评委与 4 个部门的档期，现场 300+ 人到场，按流程走完没压场。</p>
+          </div>
+          <div class="extra-item">
+            <b>压力管理训练营</b>
+            <span class="num">2 期 · 报名 180 人 · 到场率 68% → 91%</span>
+            <p>和心理中心一起把大讲座改成分组练习；用报名和签到数据盯到场率，第 2 期把到场率从 68% 拉到 91%。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ASK ================= -->
+  <section class="section" id="ask">
+    <div class="ask-shell">
+      <div class="ask-head">
+        <div class="eyebrow">Portfolio Assistant</div>
+        <h2>问问我的项目和判断</h2>
+        <p>页面里放了个本地知识库，没有后端，也不需要 API Key。答案只来自我自己的项目文档和简历，问到没做过的事它会直接说答不上。</p>
+      </div>
+
+      <form class="search-form" id="askForm">
+        <span class="search-icon" aria-hidden="true">✦</span>
+        <input id="askInput" autocomplete="off" placeholder="比如：PawPilot 为什么不全部交给 Agent？" aria-label="输入问题" />
+        <button type="submit">提问</button>
+      </form>
+
+      <div class="quick-questions">
+        <button type="button" data-question="代表项目">代表项目</button>
+        <button type="button" data-question="CowCode 做了什么">CowCode 做了什么</button>
+        <button type="button" data-question="PawPilot 的拒答怎么设计">PawPilot 的拒答</button>
+        <button type="button" data-question="RAG 项目的评测怎么做的">RAG 评测怎么做</button>
+        <button type="button" data-question="你如何衡量 AI 功能有没有用">怎么衡量有没有用</button>
+        <button type="button" data-question="为什么从结构工程转 AI 产品">为什么转产品</button>
+        <button type="button" data-question="现在还缺哪些经验">现在还缺什么</button>
+        <button type="button" data-question="怎么联系你">联系方式</button>
+      </div>
+
+      <div class="answer-panel" id="answerPanel" aria-live="polite">
+        <div class="ai-dot">AI</div>
+        <div>
+          <strong id="answerTitle">随便问，答不上我会说答不上。</strong>
+          <p id="answerText">可以问三个项目怎么做的、指标怎么算的，也可以问我为什么把某些环节交给 Workflow 而不是 Agent。上面几个按钮是常被问到的。</p>
+          <div class="answer-meta" id="answerMeta">本地知识库 · 无需 API Key · 内容来自项目文档和简历</div>
+          <button class="answer-contact-btn" id="answerContactBtn" type="button" data-copy="19840863620@163.com" hidden>复制邮箱，直接聊</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section class="section" id="work">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">Selected Work</div>
+        <h2>作品集</h2>
+      </div>
+      <p>三个都是个人项目，没有团队、也没有线上用户。卡片里写了我当时怎么选、放弃了什么，点开是完整案例，包括返工的部分。</p>
+    </div>
+
+    <div class="projects">
+
+      <!-- 01 CowCode -->
+      <article class="project-card reveal" data-project="cowcode" role="button" tabindex="0" aria-label="查看 CowCode 项目详情">
+        <div class="project-visual">
+          <div class="stage stage-1">
+            <div class="mock" aria-hidden="true">
+              <div class="mock-bar"><i></i><i></i><i></i><span class="mock-title">cowcode — ~/project</span></div>
+              <div class="mock-body">
+                <div class="term-line"><span class="p">$</span><span>cowcode "把鉴权模块重构成分层结构"</span></div>
+                <div class="term-line dim"><span>⋯ 读到 12 个文件 · 工具按需暴露 4 / 31</span></div>
+                <div class="term-line"><span class="tk">plan</span><span>1 抽接口　2 迁调用　3 跑测试</span></div>
+                <div class="term-line"><span class="tk blue">ctx</span><span>描述占用 <b>−85%</b> · 两层压缩后 3.1k</span></div>
+                <div class="prompt-row">
+                  <span>允许写入 src/auth/*.ts ?</span>
+                  <span class="chip-ok">本次允许</span>
+                  <span class="chip-plain">始终允许</span>
+                </div>
+                <div class="term-line ok"><span>✓</span><span>测试 42 / 42 通过 · 重构耗时 −60%</span></div>
+              </div>
+            </div>
+            <div class="visual-badge">读放行，写按目录分级</div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-index">01 · Coding Agent · 2026</div>
+          <span class="live-label">个人项目 · 独立完成</span>
+          <h3>CowCode｜终端 AI 编程助手</h3>
+          <p>我自己天天在终端里改代码，用过的 IDE 插件越更新越重：工具描述先把上下文占掉一半，会话一长就开始忘事，每写一个文件都要点确认。所以我这个项目往反方向做：给习惯命令行的个人开发者用，功能只留够用的，重点解决上下文和审批。</p>
+          <p class="project-result">工具占上下文 −85% ｜ 弹窗 30 → 5 次/会话 ｜ 长会话保留率 17% → 100%</p>
+          <div class="pill-row">
+            <span class="pill">需求定位</span>
+            <span class="pill">按需暴露</span>
+            <span class="pill">两层上下文压缩</span>
+            <span class="pill">权限分级 + 沙箱</span>
+          </div>
+          <div class="project-actions">
+            <button class="dark" data-open="cowcode" type="button">查看项目 / PRD →</button>
+            <button data-open="cowcode" data-tab="eval" type="button">看评测口径</button>
+            <button data-gallery="cowcode" type="button">看界面</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02 PawPilot -->
+      <article class="project-card reveal" data-project="pawpilot" role="button" tabindex="0" aria-label="查看 PawPilot 项目详情">
+        <div class="project-visual">
+          <div class="stage stage-2">
+            <div class="mock" aria-hidden="true">
+              <div class="mock-bar"><i></i><i></i><i></i><span class="mock-title">PawPilot · 售后会话</span></div>
+              <div class="mock-body">
+                <div class="bubble me">猫砂盆还没发货，能改成明天到吗？</div>
+                <div class="bubble ai">
+                  <div class="term-line" style="margin-bottom:6px"><span class="tk">intent</span><span>改派 / 物流时效</span></div>
+                  <div class="ev">
+                    <div class="ev-row"><span>物流政策 v3</span><span class="bar"><i style="width:92%"></i></span></div>
+                    <div class="ev-row"><span>订单 #A2183</span><span class="bar"><i style="width:78%"></i></span></div>
+                  </div>
+                </div>
+                <div class="gate"><span class="tk warn">gate</span><span>依据不足（政策未覆盖次日达）→ 建议转人工</span></div>
+                <div class="tool-row"><span class="tk blue">tool</span><span>query_logistics(order_id) · 待人工确认后执行</span></div>
+              </div>
+            </div>
+            <div class="visual-badge">证据不够就走人工</div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-index">02 · Retail Service Agent · 2026</div>
+          <span class="live-label">个人项目 · 独立完成</span>
+          <h3>PawPilot｜宠物零售服务智能体（Workflow + Agent）</h3>
+          <p>宠物用品的售后问题集中在查单、查物流、问政策，客服得在三个系统之间跳，答错一句就可能变成退款纠纷。我把这些固定步骤写成了 Workflow，只让 Agent 负责听懂问题和组织回答。它跳不了步，也就没法自己编一个答案出来。</p>
+          <p class="project-result">自建 300 题五桶评估集（240 题可作答）｜ Recall@5 98% ｜ 拒答误放 0%、误拦 15%</p>
+          <div class="pill-row">
+            <span class="pill">Workflow + Agent</span>
+            <span class="pill">拒答优先</span>
+            <span class="pill">证据自评</span>
+            <span class="pill">17 类缺口分类器</span>
+          </div>
+          <div class="project-actions">
+            <button class="dark" data-open="pawpilot" type="button">查看项目 / PRD →</button>
+            <button data-open="pawpilot" data-tab="eval" type="button">看评测口径</button>
+            <button data-gallery="pawpilot" type="button">看界面</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03 RAG -->
+      <article class="project-card reveal" data-project="rag" role="button" tabindex="0" aria-label="查看设备手册检索问答项目详情">
+        <div class="project-visual">
+          <div class="stage stage-3">
+            <div class="mock" aria-hidden="true">
+              <div class="mock-bar"><i></i><i></i><i></i><span class="mock-title">评测面板 · 27 条标注集</span></div>
+              <div class="mock-body">
+                <div class="eval-row">
+                  <div class="lab"><span>Recall@5</span><span><b>0.759 → 0.981</b></span></div>
+                  <div class="eval-track">
+                    <div class="t"><i class="fill-before" style="width:76%"></i></div>
+                    <div class="t"><i class="fill-after" style="width:98%"></i></div>
+                  </div>
+                </div>
+                <div class="eval-row">
+                  <div class="lab"><span>型号确认准确率</span><span><b>52.9% → 81.2%</b></span></div>
+                  <div class="eval-track">
+                    <div class="t"><i class="fill-before" style="width:53%"></i></div>
+                    <div class="t"><i class="fill-after" style="width:81%"></i></div>
+                  </div>
+                </div>
+                <div class="eval-row">
+                  <div class="lab"><span>切片重复率</span><span><b>31% → 0%</b></span></div>
+                  <div class="eval-track">
+                    <div class="t"><i class="fill-before" style="width:31%"></i></div>
+                    <div class="t"><i class="fill-after" style="width:2%"></i></div>
+                  </div>
+                </div>
+                <div class="eval-legend">
+                  <span><span class="sw" style="background:#b9a9c7"></span>改动前</span>
+                  <span><span class="sw" style="background:#2d5b42"></span>改动后</span>
+                </div>
+              </div>
+            </div>
+            <div class="visual-badge">先确认型号，再检索</div>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-index">03 · RAG &amp; Evaluation · 2026</div>
+          <span class="live-label">个人项目 · 独立完成</span>
+          <h3>设备手册检索问答系统（RAG）</h3>
+          <p>运维查参数时只说「万用表」，系统不能自己挑一个型号就答。手册又是图文混排，接线图和规格表按纯文本切开基本没法用。所以入口先做型号消歧，确认了设备才进召回和精排，答案要能指回原文那一段。</p>
+          <p class="project-result">型号确认 52.9% → 81.2%（189 组阈值穷举）｜ 切片重复率 31% → 0% ｜ Recall@5 0.759 → 0.981</p>
+          <div class="pill-row">
+            <span class="pill">型号消歧</span>
+            <span class="pill">多路召回 + 精排</span>
+            <span class="pill">索引健康度</span>
+            <span class="pill">6 阶段消融</span>
+          </div>
+          <div class="project-actions">
+            <button class="dark" data-open="rag" type="button">查看项目 / PRD →</button>
+            <button data-open="rag" data-tab="eval" type="button">看评测口径</button>
+            <button data-gallery="rag" type="button">看界面</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER CARD ================= -->
+  <section class="footer-card">
+    <div>
+      <h2>想进产品这条赛道，<br />从实习里的一个小环节做起。</h2>
+      <p>每周 5 天，可实习 6 个月，能尽快到岗（湖南大学，硕士在读，2028 届）。目标是先把产品经理这条路走扎实：需求怎么拆、原型怎么画、效果怎么量，一样一样做出来。</p>
+    </div>
+    <div class="hero-actions">
+      <button class="btn btn-primary" type="button" data-copy="19840863620@163.com">复制邮箱</button>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 张博 · AI Product Portfolio</span>
+    <a href="#top">回到顶部 ↑</a>
+  </footer>
+</main>
+
+<!-- ================= DIALOG ================= -->
+<dialog id="caseDialog">
+  <div class="modal-wrap">
+    <div class="modal-top">
+      <div>
+        <div class="eyebrow">Project Case Study</div>
+        <h3 id="modalTitle"></h3>
+      </div>
+      <div class="modal-top-right">
+        <button class="modal-gal" id="modalGal" type="button">看界面 →</button>
+        <button class="modal-close" type="button" aria-label="关闭">×</button>
+      </div>
+    </div>
+    <div class="modal-meta" id="modalMeta"></div>
+    <div class="tabs" id="modalTabs">
+      <button class="tab active" type="button" data-tab="bg">背景与目标</button>
+      <button class="tab" type="button" data-tab="how">方案与取舍</button>
+      <button class="tab" type="button" data-tab="eval">评测与结果</button>
+      <button class="tab" type="button" data-tab="review">复盘</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</dialog>
+
+<!-- ================= GALLERY ================= -->
+<dialog id="galleryDialog">
+  <div class="gal">
+    <div class="gal-top">
+      <div>
+        <div class="eyebrow">Interface</div>
+        <h3 id="galTitle"></h3>
+        <p id="galNote"></p>
+      </div>
+      <div class="gal-top-right">
+        <div class="gal-nav">
+          <span class="idx" id="galIdx">1 / 3</span>
+          <button type="button" id="galPrev" aria-label="上一屏">‹</button>
+          <button type="button" id="galNext" aria-label="下一屏">›</button>
+        </div>
+        <button class="modal-close" type="button" aria-label="关闭" data-gal-close>×</button>
+      </div>
+    </div>
+    <div class="gal-thumbs" id="galThumbs"></div>
+    <div class="gal-stage" id="galStage">
+      <iframe id="galFrame" title="项目界面预览"></iframe>
+    </div>
+    <div class="gal-foot">
+      <span class="cap" id="galCaption"></span>
+      <span class="cap gal-hint">屏幕较小的话，横屏或双指放大看细节。</span>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast">已复制</div>
+
+<script>
+/* 项目界面画廊 —— 每个界面是一个独立的 1280x800 页面，用 iframe srcdoc 隔离样式 */
+(function () {
+  "use strict";
+
+  /* ============ 共用 ============ */
+  var BASE = "html,body{margin:0;padding:0;width:1280px;height:800px;overflow:hidden;-webkit-font-smoothing:antialiased}"
+    + "*{box-sizing:border-box}"
+    + ".mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}";
+
+  /* ============ CowCode：终端 ============ */
+  var CSS_TERM = BASE
+    + "body{background:#0c0e0a}"
+    + ".app{width:1280px;height:800px;display:grid;grid-template-columns:1fr 296px;background:#0f120c;"
+    + "color:#d8dbd0;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13.5px;line-height:1.65}"
+    + ".main{display:flex;flex-direction:column;border-right:1px solid #23261e}"
+    + ".title{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid #23261e;background:#12150f}"
+    + ".dot{width:10px;height:10px;border-radius:50%;background:#2f3329}"
+    + ".title .name{margin-left:10px;color:#9ca393;font-size:12.5px;letter-spacing:.02em}"
+    + ".title .tag{margin-left:auto;font-size:11px;color:#7f8776;border:1px solid #2b3026;border-radius:999px;padding:3px 9px}"
+    + ".body{flex:1;padding:14px 22px;overflow:hidden}"
+    + ".ln{white-space:pre-wrap;margin:0 0 3px}"
+    + ".p{color:#bcd9b7}"
+    + ".dim{color:#6f7767}"
+    + ".ok{color:#9ed09a}"
+    + ".warn{color:#e6c88a}"
+    + ".us{color:#e8ebe0}"
+    + ".tk{display:inline-block;font-size:10.5px;padding:0 6px;border-radius:5px;background:#1e2a20;color:#a8c9a3;"
+    + "border:1px solid #2c3b2e;margin-right:6px;vertical-align:1px;letter-spacing:.04em}"
+    + ".tk.b{background:#1b2531;color:#9dbdd4;border-color:#2a3a4a}"
+    + ".tk.y{background:#2b2617;color:#dcc189;border-color:#453c23}"
+    + ".box{border:1px solid #2b3026;border-radius:10px;padding:9px 12px;margin:8px 0;background:#12160f}"
+    + ".box.hit{border-color:#4a6b4a;background:#141c13}"
+    + ".box.ask{border-color:#7a6a33;background:#1d1a10}"
+    + ".row{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}"
+    + ".chip{font-size:11.5px;border:1px solid #343a2d;border-radius:999px;padding:4px 11px;color:#c6cbbd;background:#171b13}"
+    + ".chip.pri{background:#bcd9b7;color:#16210f;border-color:#bcd9b7;font-weight:700}"
+    + ".diff{margin:8px 0 0;border:1px solid #262b20;border-radius:9px;overflow:hidden;font-size:12.5px}"
+    + ".diff div{padding:2px 12px;white-space:pre}"
+    + ".add{background:#12200f;color:#a5d19c}"
+    + ".del{background:#241312;color:#d8a099}"
+    + ".hunk{background:#161a13;color:#7f8776}"
+    + ".composer{margin:0 22px 16px;border:1px solid #2b3026;border-radius:12px;padding:12px 14px;background:#12150f;color:#6f7767}"
+    + ".composer .cursor{display:inline-block;width:7px;height:15px;background:#bcd9b7;vertical-align:-2px;animation:none}"
+    + ".rail{border-left:1px solid #23261e;padding:16px 16px;background:#10130d;font-family:'Segoe UI','Microsoft YaHei',sans-serif;font-size:12px}"
+    + ".rail h4{margin:0 0 10px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7f8776;font-weight:800}"
+    + ".kpi{border:1px solid #262b20;border-radius:10px;padding:9px 11px;margin-bottom:8px;background:#14180f}"
+    + ".kpi b{display:block;font-size:17px;color:#dfe4d6;letter-spacing:-.02em}"
+    + ".kpi span{color:#7f8776;font-size:11px}"
+    + ".bar{height:6px;border-radius:999px;background:#22271d;overflow:hidden;margin-top:6px}"
+    + ".bar i{display:block;height:100%;background:#bcd9b7;border-radius:999px}"
+    + ".bar i.y{background:#e6c88a}"
+    + ".list{margin:6px 0 0;padding:0;list-style:none;color:#9ca393}"
+    + ".list li{padding:5px 0;border-bottom:1px dashed #22271d;display:flex;justify-content:space-between;gap:8px}"
+    + ".list li b{color:#d8dbd0;font-weight:600}"
+    + ".set{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border:1px solid #262b20;"
+    + "border-radius:11px;background:#14180f;margin-bottom:9px}"
+    + ".set .t{font-size:13px;color:#dfe4d6;font-weight:600}"
+    + ".set .d{font-size:11.5px;color:#7f8776;margin-top:3px;line-height:1.5}"
+    + ".pill{font-size:11px;border-radius:999px;padding:4px 10px;border:1px solid #2c3b2e;color:#a8c9a3;background:#1a2318;white-space:nowrap}"
+    + ".pill.warn{border-color:#5a4a24;color:#dcc189;background:#221d11}"
+    + ".pill.gray{border-color:#2b3026;color:#8d9488;background:#151a12}";
+
+  var term = function (body) { return "<style>" + CSS_TERM + "</style>" + body; };
+
+  /* ============ PawPilot：浅色客服台 ============ */
+  var CSS_PAW = BASE
+    + "body{background:#f2efe8;color:#1a1d17;font-family:'Segoe UI','Microsoft YaHei',system-ui,sans-serif;font-size:13.5px}"
+    + ".app{width:1280px;height:800px;display:grid;grid-template-columns:212px 1fr 318px;gap:0}"
+    + ".side{background:#1e2a22;color:#cfd8cf;padding:20px 16px;display:flex;flex-direction:column;gap:6px}"
+    + ".side .brand{font-weight:800;color:#fff;font-size:14px;letter-spacing:-.01em;margin-bottom:14px}"
+    + ".side .brand small{display:block;font-weight:500;color:#8ba593;font-size:11px;letter-spacing:.02em;margin-top:3px}"
+    + ".nav{padding:9px 11px;border-radius:9px;font-size:12.5px;color:#a9bda9}"
+    + ".nav.on{background:rgba(188,217,183,.18);color:#fff;font-weight:700}"
+    + ".side .foot{margin-top:auto;font-size:11px;color:#7d9583;line-height:1.6}"
+    + ".main{background:#f2efe8;display:flex;flex-direction:column;min-width:0}"
+    + ".top{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid rgba(23,24,19,.08);background:#faf8f2}"
+    + ".top .who{font-weight:750;font-size:14px}"
+    + ".top .who small{display:block;font-weight:500;color:#7a7d73;font-size:11.5px}"
+    + ".top .st{margin-left:auto;font-size:11.5px;color:#2d5b42;background:rgba(188,217,183,.5);border-radius:999px;padding:4px 11px;font-weight:700}"
+    + ".chat{flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:14px;overflow:hidden}"
+    + ".day{text-align:center;font-size:11.5px;color:#9a9d93}"
+    + ".msg{display:flex;gap:10px;max-width:86%}"
+    + ".msg.me{margin-left:auto;flex-direction:row-reverse}"
+    + ".av{width:30px;height:30px;border-radius:9px;background:#fff;border:1px solid rgba(23,24,19,.1);display:grid;place-items:center;font-size:11px;color:#6b6d63;flex:0 0 auto}"
+    + ".av.ai{background:#2d5b42;color:#fff;border-color:#2d5b42;font-weight:700}"
+    + ".bub{background:#fff;border:1px solid rgba(23,24,19,.08);border-radius:13px;padding:11px 14px;line-height:1.65;font-size:13.5px;box-shadow:0 6px 18px rgba(39,41,34,.05)}"
+    + ".msg.me .bub{background:#2d5b42;color:#fff;border-color:#2d5b42}"
+    + ".bub .h{font-weight:750;margin-bottom:5px}"
+    + ".steps{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:12.5px;color:#4a4d45}"
+    + ".steps li{display:flex;gap:7px;align-items:baseline}"
+    + ".steps .n{color:#2d5b42;font-weight:800;font-size:11px}"
+    + ".ev{margin-top:10px;border-top:1px dashed rgba(23,24,19,.12);padding-top:9px;display:grid;gap:6px}"
+    + ".ev .lab{font-size:11px;color:#8b8e84;letter-spacing:.06em;text-transform:uppercase;font-weight:750}"
+    + ".ev .it{display:flex;align-items:center;gap:8px;font-size:12px;color:#3d4039}"
+    + ".ev .it .src{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}"
+    + ".ev .it .sc{font-variant-numeric:tabular-nums;color:#5c6a5f;font-weight:700}"
+    + ".gate{margin-top:10px;border-radius:10px;padding:9px 11px;font-size:12.5px;background:rgba(243,201,174,.45);border:1px solid rgba(243,201,174,.9);color:#7a4325;font-weight:650}"
+    + ".tool{margin-top:8px;border:1px solid rgba(45,91,66,.25);border-radius:10px;padding:10px 11px;background:#f7fbf6;display:flex;align-items:center;gap:9px;font-size:12.5px}"
+    + ".tool .fn{font-family:ui-monospace,Consolas,monospace;color:#2d5b42;font-weight:700}"
+    + ".tool .btns{margin-left:auto;display:flex;gap:6px}"
+    + ".btn{font-size:11.5px;border-radius:8px;padding:5px 10px;border:1px solid rgba(23,24,19,.14);background:#fff;font-weight:700;color:#3d4039}"
+    + ".btn.ok{background:#2d5b42;border-color:#2d5b42;color:#fff}"
+    + ".comp{margin:0 24px 16px;border:1px solid rgba(23,24,19,.12);border-radius:12px;background:#fff;padding:11px 13px;color:#a0a39a;font-size:12.5px;display:flex;align-items:center;gap:10px}"
+    + ".comp .b{margin-left:auto;background:#2d5b42;color:#fff;border-radius:9px;padding:7px 16px;font-size:12.5px;font-weight:750}"
+    + ".rail{border-left:1px solid rgba(23,24,19,.08);background:#faf8f2;padding:18px 18px;font-size:12px}"
+    + ".rail h4{margin:0 0 10px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8b8e84;font-weight:800}"
+    + ".card{background:#fff;border:1px solid rgba(23,24,19,.08);border-radius:12px;padding:12px;margin-bottom:10px}"
+    + ".card .t{font-size:12px;color:#6b6d63;margin-bottom:4px}"
+    + ".card .v{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#1a1d17}"
+    + ".card .v small{font-size:11.5px;font-weight:600;color:#7a7d73;margin-left:4px}"
+    + ".kv{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px dashed rgba(23,24,19,.1)}"
+    + ".kv:last-child{border:0}"
+    + ".kv b{font-weight:750}"
+    + ".buckets{display:grid;gap:9px;margin-top:6px}"
+    + ".bk{display:grid;grid-template-columns:88px 1fr 44px;gap:8px;align-items:center;font-size:11.5px;color:#4a4d45}"
+    + ".bk .t{height:8px;border-radius:999px;background:rgba(23,24,19,.08);overflow:hidden}"
+    + ".bk .t i{display:block;height:100%;border-radius:999px;background:#2d5b42}"
+    + ".bk .t i.b{background:#bcd9b7}"
+    + ".bk .n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:#3d4039}"
+    + ".tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:4px}"
+    + ".tbl th{text-align:left;font-weight:750;color:#8b8e84;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid rgba(23,24,19,.1)}"
+    + ".tbl td{padding:8px;border-bottom:1px dashed rgba(23,24,19,.08);color:#3d4039}"
+    + ".tag{font-size:10.5px;font-weight:750;border-radius:999px;padding:2px 8px;background:rgba(188,217,183,.55);color:#274a35}"
+    + ".tag.w{background:rgba(243,201,174,.6);color:#7a4325}"
+    + ".big{font-size:26px;font-weight:850;letter-spacing:-.03em}"
+    + ".page{padding:24px 26px;width:1280px;height:800px;background:#f2efe8}"
+    + ".page .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}"
+    + ".page .hd h1{margin:0;font-size:20px;letter-spacing:-.02em}"
+    + ".page .hd p{margin:0;color:#7a7d73;font-size:12.5px}"
+    + ".cols{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}"
+    + ".panel{background:#fff;border:1px solid rgba(23,24,19,.08);border-radius:16px;padding:16px 18px}"
+    + ".panel h3{margin:0 0 12px;font-size:12.5px;color:#6b6d63;font-weight:750}"
+    + ".grid2{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}";
+
+  var paw = function (body) { return "<style>" + CSS_PAW + "</style>" + body; };
+
+  /* ============ RAG：深色玻璃 ============ */
+  var CSS_RAG = BASE
+    + "body{background:#0f172a;color:#e2e8f0;font-family:'Segoe UI','Microsoft YaHei',system-ui,sans-serif;font-size:13.5px;"
+    + "background-image:radial-gradient(circle at 15% 50%, rgba(56,189,248,.08) 0%, transparent 50%),radial-gradient(circle at 85% 30%, rgba(129,140,248,.08) 0%, transparent 50%)}"
+    + ".app{width:1280px;height:800px;display:grid;grid-template-columns:230px 1fr;gap:0}"
+    + ".side{padding:16px 14px;border-right:1px solid rgba(255,255,255,.08);background:rgba(15,23,42,.5);display:flex;flex-direction:column;gap:10px}"
+    + ".new{display:block;text-align:center;padding:9px;border-radius:10px;font-weight:700;color:#fff;font-size:12.5px;"
+    + "background:linear-gradient(135deg,#38bdf8,#818cf8)}"
+    + ".side .h{font-size:11px;color:#94a3b8;letter-spacing:.08em;margin:4px 2px}"
+    + ".sess{padding:8px 10px;border-radius:9px;font-size:12px;color:#cbd5e1;border:1px solid transparent}"
+    + ".sess.on{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.25)}"
+    + ".sess small{display:block;color:#64748b;font-size:10.5px;margin-top:2px}"
+    + ".main{display:flex;flex-direction:column;min-width:0}"
+    + ".top{display:flex;align-items:center;gap:11px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.08)}"
+    + ".logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,rgba(56,189,248,.25),rgba(129,140,248,.25));"
+    + "border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-size:14px}"
+    + ".top .tt{font-weight:750;font-size:13.5px}"
+    + ".top .tt small{display:block;font-weight:500;color:#94a3b8;font-size:11px}"
+    + ".top .r{margin-left:auto;display:flex;gap:8px;align-items:center;font-size:11.5px;color:#94a3b8}"
+    + ".ghost{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:5px 10px;font-size:11.5px;color:#cbd5e1}"
+    + ".chat{flex:1;padding:16px 22px;display:flex;flex-direction:column;gap:13px;overflow:hidden}"
+    + ".day{text-align:center;font-size:11px;color:#64748b}"
+    + ".msg{display:flex;gap:10px;align-items:flex-start}"
+    + ".msg.me{flex-direction:row-reverse}"
+    + ".av{width:34px;height:34px;border-radius:10px;background:rgba(56,189,248,.15);display:grid;place-items:center;font-size:11px;color:#94a3b8;flex:0 0 auto}"
+    + ".av.bot{background:linear-gradient(135deg,rgba(56,189,248,.22),rgba(129,140,248,.22))}"
+    + ".bub{max-width:720px;border-radius:14px;padding:11px 13px;border:1px solid rgba(255,255,255,.1);"
+    + "background:rgba(15,23,42,.6);line-height:1.65;font-size:13.5px;backdrop-filter:blur(16px)}"
+    + ".msg.me .bub{background:linear-gradient(135deg,#38bdf8,#818cf8);color:#fff;border-color:transparent}"
+    + ".meta{font-size:10.5px;color:#64748b;margin-top:5px}"
+    + ".prog{margin-top:9px;border:1px dashed rgba(56,189,248,.3);border-radius:12px;padding:9px 11px;background:rgba(15,23,42,.4)}"
+    + ".prog .sm{font-size:11.5px;color:#94a3b8;margin-bottom:6px}"
+    + ".prog ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}"
+    + ".prog li{font-size:11.5px;color:#94a3b8;display:flex;gap:7px;align-items:baseline}"
+    + ".prog .ok{color:#7dd3a7}"
+    + ".prog .now{color:#38bdf8}"
+    + ".srcs{margin-top:10px;display:grid;gap:7px}"
+    + ".src{display:flex;gap:9px;align-items:flex-start;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 10px;background:rgba(255,255,255,.03)}"
+    + ".src .idx{font-size:10px;color:#38bdf8;border:1px solid rgba(56,189,248,.4);border-radius:5px;padding:1px 5px;flex:0 0 auto}"
+    + ".src .tx{font-size:11.5px;color:#cbd5e1;line-height:1.55}"
+    + ".src .tx small{display:block;color:#64748b;font-size:10.5px;margin-top:2px}"
+    + ".src .sc{margin-left:auto;font-size:11px;color:#7dd3a7;font-variant-numeric:tabular-nums;white-space:nowrap}"
+    + ".comp{margin:0 22px 10px;display:flex;gap:9px}"
+    + ".comp .inp{flex:1;border:1px solid rgba(56,189,248,.35);border-radius:11px;padding:11px 13px;color:#94a3b8;"
+    + "background:rgba(15,23,42,.6);font-size:12.5px}"
+    + ".comp .send{border-radius:11px;padding:0 22px;background:linear-gradient(135deg,#38bdf8,#818cf8);color:#fff;font-weight:750;display:grid;place-items:center;font-size:12.5px}"
+    + ".hint{margin:0 22px 12px;font-size:10.5px;color:#64748b}"
+    + ".kb{padding:12px 22px 16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(15,23,42,.35)}"
+    + ".kb .g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}"
+    + ".kbc{border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;background:rgba(255,255,255,.03)}"
+    + ".kbc .t{font-size:10.5px;color:#94a3b8}"
+    + ".kbc .v{font-size:15px;font-weight:750;margin-top:2px}"
+    + ".kbc .v small{font-size:10.5px;color:#64748b;font-weight:500}"
+    + ".page{padding:22px 26px;width:1280px;height:800px}"
+    + ".page .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}"
+    + ".page .hd h1{margin:0;font-size:19px;letter-spacing:-.02em}"
+    + ".page .hd p{margin:0;color:#94a3b8;font-size:12px}"
+    + ".grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}"
+    + ".glass{border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(30,41,59,.55);backdrop-filter:blur(16px);padding:15px 17px}"
+    + ".glass h3{margin:0 0 12px;font-size:12px;color:#94a3b8;font-weight:750;letter-spacing:.04em}"
+    + ".drop{border:1px dashed rgba(56,189,248,.4);border-radius:12px;padding:26px;text-align:center;color:#94a3b8;font-size:12.5px;background:rgba(56,189,248,.05)}"
+    + ".drop b{display:block;color:#e2e8f0;font-size:13.5px;margin-bottom:5px}"
+    + ".files{margin-top:12px;display:grid;gap:8px}"
+    + ".file{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;font-size:12px;background:rgba(255,255,255,.03)}"
+    + ".file .nm{flex:1;line-height:1.5}"
+    + ".file .nm small{display:block;color:#64748b;font-size:10.5px;margin-top:3px;line-height:1.5}"
+    + ".st{font-size:10.5px;border-radius:999px;padding:2px 8px;background:rgba(125,211,167,.15);color:#7dd3a7;border:1px solid rgba(125,211,167,.3)}"
+    + ".st.w{background:rgba(250,204,21,.12);color:#facc15;border-color:rgba(250,204,21,.3)}"
+    + ".kv{display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.08)}"
+    + ".kv:last-child{border:0}"
+    + ".kv b{font-weight:700;color:#e2e8f0}"
+    + ".cand{display:grid;gap:8px}"
+    + ".cand .c{border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 11px;background:rgba(255,255,255,.03)}"
+    + ".cand .c.hi{border-color:rgba(125,211,167,.45);background:rgba(125,211,167,.07)}"
+    + ".cand .r{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}"
+    + ".cand .track{height:6px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:2px}"
+    + ".cand .track i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#38bdf8,#818cf8)}"
+    + ".cand .track i.ok{background:#7dd3a7}"
+    + ".thr{position:absolute;top:-3px;bottom:-3px;width:2px;background:#facc15}"
+    + ".mono{font-family:ui-monospace,Consolas,monospace}";
+
+  var rag = function (body) { return "<style>" + CSS_RAG + "</style>" + body; };
+
+  /* ================= CowCode 屏幕 ================= */
+
+  var cowcode = [
+    {
+      id: "cow-1",
+      title: "01 终端主会话",
+      note: "一次真实任务的处理过程：先出计划，再按阶段挂载工具，写文件前只问一次。",
+      html: term(
+        '<div class="app"><div class="main">'
+        + '<div class="title"><span class="dot"></span><span class="dot"></span><span class="dot"></span>'
+        + '<span class="name">cowcode — ~/project/api</span><span class="tag">会话 03 · 已连续 2h47m</span></div>'
+        + '<div class="body">'
+        + '<div class="ln"><span class="p">~/project/api $</span> <span class="us">cowcode "把鉴权模块拆成分层结构，接口不要变"</span></div>'
+        + '<div class="ln dim">⋯ 扫到 12 个文件，挂载工具 4 / 31（读文件 · 编辑 · 跑测试 · 搜代码）</div>'
+        + '<div class="box">'
+        + '<div class="row"><span class="tk">plan</span><span class="dim">计划 3 步，等你确认范围</span></div>'
+        + '<div class="ln" style="margin-top:6px">1. 抽出 <span class="ok">AuthService</span> 接口，保留现有 6 个方法签名</div>'
+        + '<div class="ln">2. 把 <span class="ok">token / session / audit</span> 三处调用改成依赖注入</div>'
+        + '<div class="ln">3. 跑 <span class="ok">pytest tests/auth</span>，确保 42 条用例全绿</div>'
+        + '<div class="ln dim" style="margin-top:6px">不做：不改路由、不动数据库 schema、不碰测试文件</div>'
+        + '</div>'
+        + '<div class="ln"><span class="tk b">read</span>src/auth/controller.py · 214 行</div>'
+        + '<div class="ln"><span class="tk b">read</span>src/auth/middleware.py · 88 行</div>'
+        + '<div class="ln"><span class="tk b">edit</span>src/auth/service.py <span class="dim">（新建）</span></div>'
+        + '<div class="diff">'
+        + '<div class="hunk">@@ controller.py  41 -12 +18 @@</div>'
+        + '<div class="del">-  token = issue_token(user.id, SECRET)</div>'
+        + '<div class="add">+  token = self.auth.issue(user.id)   # 依赖注入，密钥收敛到 service</div>'
+        + '<div class="add">+  self.audit.log("login", user.id)</div>'
+        + '</div>'
+        + '<div class="box ask">'
+        + '<div class="row"><span class="tk y">confirm</span><b style="color:#e6c88a">接下来要写 3 个文件，范围 src/auth/**</b></div>'
+        + '<div class="row" style="margin-top:8px"><span class="chip pri">本次允许</span><span class="chip">本会话允许该目录</span><span class="chip">先给我看 diff</span></div>'
+        + '<div class="ln dim" style="margin-top:7px">读操作不打断；写操作按目录分级，越界才问。</div>'
+        + '</div>'
+        + '<div class="ln"><span class="tk b">bash</span>pytest tests/auth -q</div>'
+        + '<div class="ln ok">✓ 42 passed in 6.71s</div>'
+        + '<div class="ln"><span class="p">~/project/api $</span> <span class="dim">已完成：3 个文件，+186 −74；重构耗时 11m → 4.3m</span></div>'
+        + '</div>'
+        + '<div class="composer">输入指令，或 <span style="color:#bcd9b7">/compact</span> 压缩上下文 · <span style="color:#bcd9b7">/tools</span> 查看已挂载工具<span class="cursor"></span></div>'
+        + '</div>'
+        + '<div class="rail">'
+        + '<h4>Context</h4>'
+        + '<div class="kpi"><b>3.1k <span style="font-size:11px;color:#7f8776">/ 128k</span></b><span>两层压缩后的占用</span>'
+        + '<div class="bar"><i style="width:9%"></i></div></div>'
+        + '<div class="kpi"><b>−85%</b><span>工具描述占用（对比全量挂载）</span><div class="bar"><i style="width:15%"></i></div></div>'
+        + '<h4 style="margin-top:14px">Session</h4>'
+        + '<ul class="list">'
+        + '<li><span>连续会话</span><b>2h47m</b></li>'
+        + '<li><span>约束保留</span><b class="ok">100%</b></li>'
+        + '<li><span>确认弹窗</span><b>5 次</b></li>'
+        + '<li><span>工具调用</span><b>38</b></li>'
+        + '</ul>'
+        + '<h4 style="margin-top:14px">挂载中</h4>'
+        + '<ul class="list">'
+        + '<li><span>read_file</span><b class="dim">·</b></li>'
+        + '<li><span>edit_file</span><b class="dim">写</b></li>'
+        + '<li><span>run_tests</span><b class="dim">·</b></li>'
+        + '<li><span>search</span><b class="dim">·</b></li>'
+        + '</ul>'
+        + '<div class="ln dim" style="margin-top:12px;font-size:11px;line-height:1.6">其余 27 个工具按阶段动态挂载，不占当前上下文。</div>'
+        + '</div></div>'
+      )
+    },
+    {
+      id: "cow-2",
+      title: "02 上下文压缩",
+      note: "长会话的两层压缩：先把过程记录压成阶段摘要，再把摘要压成结论，约束单独留一份。",
+      html: term(
+        '<div class="app"><div class="main">'
+        + '<div class="title"><span class="dot"></span><span class="dot"></span><span class="dot"></span>'
+        + '<span class="name">cowcode — context</span><span class="tag">/compact 详情</span></div>'
+        + '<div class="body">'
+        + '<div class="ln"><span class="p">~/project/api $</span> <span class="us">/compact --show</span></div>'
+        + '<div class="box">'
+        + '<div class="row"><span class="tk">layer 1</span><b>阶段摘要</b><span class="dim">42.6k → 8.2k tokens</span></div>'
+        + '<div class="ln dim" style="margin-top:6px">按任务阶段切，已完成的步骤只留「改了什么 / 为什么 / 校验结果」，中间的失败尝试丢掉。</div>'
+        + '<div class="bar" style="margin-top:8px"><i style="width:19%"></i></div>'
+        + '</div>'
+        + '<div class="box">'
+        + '<div class="row"><span class="tk">layer 2</span><b>结论摘要</b><span class="dim">8.2k → 3.1k tokens</span></div>'
+        + '<div class="ln dim" style="margin-top:6px">把阶段摘要再压成结构化结论，原文留在磁盘，需要时按行号回查。</div>'
+        + '<div class="bar" style="margin-top:8px"><i style="width:9%"></i></div>'
+        + '</div>'
+        + '<div class="box hit">'
+        + '<div class="row"><span class="tk">pinned</span><b>约束区（永不压缩）</b></div>'
+        + '<div class="ln" style="margin-top:6px">· 接口签名不能变：<span class="ok">issue / verify / refresh / revoke / audit / whoami</span></div>'
+        + '<div class="ln">· 不改路由与数据库 schema</div>'
+        + '<div class="ln">· 测试 42 条必须全绿，不许改测试</div>'
+        + '<div class="ln">· 错误码沿用 E401x 系列</div>'
+        + '</div>'
+        + '<div class="ln"><span class="p">~/project/api $</span> <span class="us">第 6 次压缩后，检查：现在改到哪一步？</span></div>'
+        + '<div class="ln ok">→ 第 3 步已完成（42 passed）。当前在收尾：把 audit 调用从 controller 移到 service，尚未跑回归。</div>'
+        + '<div class="ln dim">↑ 8 小时脚本会话里，同类检查点 24 个全部通过 → 保留率 100%（改动前 17%）</div>'
+        + '</div>'
+                + '<div class="box">'
+        + '<div class="row"><span class="tk b">recall</span><b>按行号回查原文</b><span class="dim">src/auth/service.py</span></div>'
+        + '<div class="ln mono" style="margin-top:6px;font-size:12.5px"><span class="dim">074</span>  def issue(self, user_id: str) -> str:</div>'
+        + '<div class="ln mono" style="font-size:12.5px"><span class="dim">075</span>      <span class="ok"># 密钥只在这一层出现，controller 不再持有 SECRET</span></div>'
+        + '<div class="ln mono" style="font-size:12.5px"><span class="dim">076</span>      claims = {"sub": user_id, "exp": now() + TTL}</div>'
+        + '<div class="ln mono" style="font-size:12.5px"><span class="dim">077</span>      return jwt.encode(claims, self.secret, algorithm="HS256")</div>'
+        + '<div class="ln dim" style="margin-top:6px;font-size:11.5px">压缩只丢过程，不丢位置：任何一条结论都能按行号回到原文，这是敢压到 3.1k 的前提。</div>'
+        + '</div>'
++ '<div class="composer">/compact --aggressive 会更省，但可能丢行号引用，默认不开</div>'
+        + '</div>'
+        + '<div class="rail">'
+        + '<h4>压缩前后</h4>'
+        + '<div class="kpi"><b>42.6k → 3.1k</b><span>上下文占用（−93%）</span><div class="bar"><i style="width:7%"></i></div></div>'
+        + '<div class="kpi"><b>17% → 100%</b><span>8h 会话约束保留率</span><div class="bar"><i class="y" style="width:100%"></i></div></div>'
+        + '<h4 style="margin-top:14px">检查点</h4>'
+        + '<ul class="list">'
+        + '<li><span>第 1–6 次压缩</span><b class="ok">全通过</b></li>'
+        + '<li><span>回查原文</span><b>7 次</b></li>'
+        + '<li><span>误丢约束</span><b>0</b></li>'
+        + '</ul>'
+        + '<h4 style="margin-top:14px">为什么不做扩窗口</h4>'
+        + '<div class="ln dim" style="font-size:11.5px;line-height:1.7">窗口再大也会满，而且解决不了「什么该留」。压缩是产品决策，不只是省钱。</div>'
+        + '</div></div>'
+      )
+    },
+    {
+      id: "cow-3",
+      title: "03 权限与沙箱",
+      note: "读操作放行、写操作按目录分级、危险命令一律确认，越界动作由沙箱兜底。",
+      html: term(
+        '<div class="app"><div class="main">'
+        + '<div class="title"><span class="dot"></span><span class="dot"></span><span class="dot"></span>'
+        + '<span class="name">cowcode — settings / permissions</span><span class="tag">本地配置</span></div>'
+        + '<div class="body">'
+        + '<div class="ln"><span class="p">~/project/api $</span> <span class="us">/permissions</span></div>'
+        + '<div class="set"><div><div class="t">读取文件 / 搜索代码</div><div class="d">只在项目根目录内，默认放行，不问</div></div><span class="pill">放行</span></div>'
+        + '<div class="set"><div><div class="t">写入 src/** 与 tests/**</div><div class="d">本会话内允许，跨会话重新确认</div></div><span class="pill">按目录</span></div>'
+        + '<div class="set"><div><div class="t">写入项目外路径</div><div class="d">一律拦下，需要手动确认并记录</div></div><span class="pill warn">确认</span></div>'
+        + '<div class="set"><div><div class="t">执行 shell 命令</div><div class="d">白名单：pytest / ruff / git status。其余需确认</div></div><span class="pill warn">确认</span></div>'
+        + '<div class="set"><div><div class="t">删除 / 覆盖 / 提交</div><div class="d">不可逆操作：强制二次确认 + 沙箱内先演练</div></div><span class="pill gray">禁止直通</span></div>'
+        + '<div class="box hit">'
+        + '<div class="row"><span class="tk">sandbox</span><b>工作区隔离</b><span class="dim">运行在独立工作目录，宿主只读挂载</span></div>'
+        + '<div class="ln dim" style="margin-top:6px">命令先在沙箱跑一遍，成功才落到真实目录，失败直接回滚。</div>'
+        + '</div>'
+
+        + '</div>'
+                + '<div class="box">'
+        + '<div class="row"><span class="tk y">blocked</span><b>最近 7 天被拦下的操作</b></div>'
+        + '<div class="ln" style="margin-top:6px"><span class="dim">07-02 14:08</span>  <span class="warn">rm -rf build/</span>  <span class="dim">不可逆删除，要求在沙箱先演练</span></div>'
+        + '<div class="ln"><span class="dim">07-01 11:32</span>  <span class="warn">git push --force</span>  <span class="dim">改远端历史，需人工确认</span></div>'
+        + '</div>'
++ '<div class="composer">策略可以按项目存成 <span style="color:#bcd9b7">.cowcode/permissions.json</span>，团队共享</div>'
+        + '</div>'
+        + '<div class="rail">'
+        + '<h4>一周统计</h4>'
+        + '<div class="kpi"><b>30 → 5</b><span>弹窗次数 / 会话</span>'
+        + '<div class="bar"><i style="width:17%"></i></div></div>'
+        + '<div class="kpi"><b>0</b><span>越界写入</span><div class="bar"><i style="width:2%"></i></div></div>'
+        + '<div class="kpi"><b>94%</b><span>自动执行完成率</span><div class="bar"><i style="width:94%"></i></div></div>'
+        + '<h4 style="margin-top:14px">为什么这么分</h4>'
+        + '<div class="ln dim" style="font-size:11.5px;line-height:1.7">「能不能自动」是体验问题，「敢不敢自动」是信任问题。分开处理，两个才不会互相拖累。</div>'
+        + '</div></div>'
+      )
+    }
+  ];
+
+  /* ================= PawPilot 屏幕 ================= */
+
+  var pawpilot = [
+    {
+      id: "paw-1",
+      title: "01 售后会话",
+      note: "固定步骤走 Workflow，Agent 只负责听懂问题；证据不足时闸门拦下，转人工。",
+      html: paw(
+        '<div class="app">'
+        + '<div class="side"><div class="brand">PawPilot<small>宠物零售服务智能体</small></div>'
+        + '<div class="nav on">售后会话</div><div class="nav">工单队列 · 3</div><div class="nav">知识库</div><div class="nav">缺口分析</div><div class="nav">评测集</div>'
+        + '<div class="foot">今日 128 会话<br />转人工 19（14.8%）<br />拒答误放 0</div></div>'
+        + '<div class="main">'
+        + '<div class="top"><div class="who">用户 #A2183 · 会员 2 年<small>猫砂盆 · 订单未发货</small></div><span class="st">Agent + Workflow</span></div>'
+        + '<div class="chat">'
+        + '<div class="day">今天 14:26</div>'
+        + '<div class="msg me"><div class="av">用</div><div class="bub">猫砂盆还没发货，能改成明天到吗？我后天要出差。</div></div>'
+        + '<div class="msg"><div class="av ai">AI</div><div class="bub">'
+        + '<div class="h">我看了一下，这单还没出库</div>'
+        + '<ul class="steps">'
+        + '<li><span class="n">1</span><span>订单 #A2183：已付款，仓库待拣货</span></li>'
+        + '<li><span class="n">2</span><span>当前承运：普通快递，预计 3–4 天</span></li>'
+        + '<li><span class="n">3</span><span>政策 v3 里没有「次日达」这项服务</span></li>'
+        + '</ul>'
+        + '<div class="ev"><div class="lab">依据</div>'
+        + '<div class="it"><span class="src">物流政策 v3 · 第 2 章 时效与改派</span><span class="sc">0.92</span></div>'
+        + '<div class="it"><span class="src">订单中心 · #A2183 发货状态</span><span class="sc">0.88</span></div>'
+        + '</div>'
+        + '<div class="gate">依据不足：政策未覆盖「次日达」，不替你承诺时效 → 建议转人工确认改派</div>'
+        + '<div class="tool"><span class="fn">query_logistics(order_id)</span><span style="color:#7a7d73">待人工确认后执行</span>'
+        + '<span class="btns"><span class="btn">取消</span><span class="btn ok">转人工</span></span></div>'
+        + '</div></div>'
+        + '<div class="msg"><div class="av ai">AI</div><div class="bub" style="background:#f7fbf6">'
+        + '<b>已转给物流组，工单 #R-2291。</b><br />同事会在 30 分钟内回复你。如果确认无法次日达，可以选择改派顺丰（补 12 元）或全额退款。'
+        + '</div></div>'
+        + '</div>'
+        + '<div class="comp">输入消息…<span class="b">发送</span></div>'
+        + '</div>'
+        + '<div class="rail">'
+        + '<h4>本轮判定</h4>'
+        + '<div class="card"><div class="t">意图</div><div class="v" style="font-size:15px">改派 · 物流时效</div></div>'
+        + '<div class="card"><div class="t">闸门</div><div class="v" style="font-size:15px;color:#7a4325">拦截 · 转人工</div></div>'
+        + '<div class="kv"><span>证据条数</span><b>2</b></div>'
+        + '<div class="kv"><span>最高相关度</span><b>0.92</b></div>'
+        + '<div class="kv"><span>自评置信</span><b>0.41 / 阈值 0.6</b></div>'
+        + '<div class="kv"><span>工具调用</span><b>0（未执行）</b></div>'
+        + '<h4 style="margin-top:14px">为什么不让它答</h4>'
+        + '<div style="font-size:11.5px;color:#6b6d63;line-height:1.7">承诺时效是能引发投诉的动作。政策没写，就不能顺着用户说「可以」。宁可多转一次人工。</div>'
+        + '</div></div>'
+      )
+    },
+    {
+      id: "paw-2",
+      title: "02 评测看板",
+      note: "300 题五桶评估集：可作答与应拒答分开算，否则整体准确率会掩盖拒答退化。",
+      html: paw(
+        '<div class="page">'
+        + '<div class="hd"><h1>评测看板</h1><p>300 题五桶 · 2026.09.12 全量回归 · 模型 v4</p></div>'
+        + '<div class="cols">'
+        + '<div class="panel"><h3>Recall@5</h3><div class="big">98%</div><div style="font-size:11.5px;color:#7a7d73">240 题可作答</div></div>'
+        + '<div class="panel"><h3>知识覆盖度</h3><div class="big">97%</div><div style="font-size:11.5px;color:#7a7d73">问题可被现有知识命中</div></div>'
+        + '<div class="panel"><h3>拒答误放</h3><div class="big" style="color:#2d5b42">0%</div><div style="font-size:11.5px;color:#7a7d73">不该答却答了</div></div>'
+        + '<div class="panel"><h3>拒答误拦</h3><div class="big" style="color:#a8763a">15%</div><div style="font-size:11.5px;color:#7a7d73">本可答却转了人工</div></div>'
+        + '</div>'
+        + '<div class="grid2">'
+        + '<div class="panel"><h3>五桶分布（共 300 题）</h3>'
+        + '<div class="buckets">'
+        + '<div class="bk"><span>可作答</span><span class="t"><i style="width:100%"></i></span><span class="n">240</span></div>'
+        + '<div class="bk"><span>政策边界</span><span class="t"><i class="b" style="width:33%"></i></span><span class="n">22</span></div>'
+        + '<div class="bk"><span>多意图混合</span><span class="t"><i class="b" style="width:27%"></i></span><span class="n">18</span></div>'
+        + '<div class="bk"><span>应拒答</span><span class="t"><i class="b" style="width:21%"></i></span><span class="n">14</span></div>'
+        + '<div class="bk"><span>应转人工</span><span class="t"><i class="b" style="width:9%"></i></span><span class="n">6</span></div>'
+        + '</div>'
+        + '<div style="margin-top:16px;font-size:11.5px;color:#6b6d63;line-height:1.7">分桶的意义：把「答得准」和「知道什么时候别答」分开算。只看整体准确率，拒答退化会被可作答的题目盖住。</div>'
+        + '</div>'
+        + '<div class="panel"><h3>与上一版对比</h3>'
+        + '<div class="kv"><span>Recall@5</span><b>94% → 98%</b></div>'
+        + '<div class="kv"><span>误放率</span><b>3% → 0%</b></div>'
+        + '<div class="kv"><span>误拦率</span><b>9% → 15%</b></div>'
+        + '<div class="kv"><span>平均响应</span><b>2.1s → 1.8s</b></div>'
+        + '<div style="margin-top:14px;font-size:11.5px;color:#6b6d63;line-height:1.7">这一版是主动拿误拦换误放：把闸门阈值从 0.45 提到 0.6。多转 6 个点的人工，换掉所有硬答。</div>'
+        + '</div>'
+        + '</div>'
+        + '<div class="cols" style="grid-template-columns:1.35fr 1fr;margin-top:12px">'
+        + '<div class="panel"><h3>近 6 次回归</h3>'
+        + '<table class="tbl"><thead><tr><th>版本</th><th>Recall@5</th><th>误放</th><th>误拦</th><th>这一版改了什么</th></tr></thead><tbody>'
+        + '<tr><td>v1 纯 Agent</td><td>88%</td><td>11%</td><td>4%</td><td>硬答多，先立基线</td></tr>'
+        + '<tr><td>v2 + 拒答闸门</td><td>91%</td><td>3%</td><td>9%</td><td>阈值 0.45</td></tr>'
+        + '<tr><td>v3 分桶重测</td><td>94%</td><td>3%</td><td>9%</td><td>补多意图桶，发现退化</td></tr>'
+        + '<tr><td>v4 阈值 0.6</td><td>98%</td><td>0%</td><td>15%</td><td>当前版本</td></tr>'
+        + '</tbody></table></div>'
+        + '<div class="panel"><h3>当前失败样例</h3>'
+        + '<table class="tbl"><thead><tr><th>题目</th><th>类型</th><th>现象</th></tr></thead><tbody>'
+        + '<tr><td>拆封猫粮能退吗</td><td><span class="tag w">误拦</span></td><td>政策有依据，检索没命中</td></tr>'
+        + '<tr><td>两件折扣能叠加吗</td><td><span class="tag w">误拦</span></td><td>多意图没拆开</td></tr>'
+        + '<tr><td>猫吐了吃什么药</td><td><span class="tag">正确拒答</span></td><td>越界，转人工</td></tr>'
+        + '</tbody></table>'
+        + '<div style="margin-top:10px;font-size:11.5px;color:#6b6d63;line-height:1.7">两条误拦都是检索问题，不是闸门问题 —— 所以下一步补知识，不再调阈值。</div>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+      )
+    },
+    {
+      id: "paw-3",
+      title: "03 知识缺口",
+      note: "17 类主题分类器统计「哪类问题答不上」，badcase 审核后回写知识库再复测。",
+      html: paw(
+        '<div class="page">'
+        + '<div class="hd"><h1>知识缺口分析</h1><p>近 7 天 986 条会话 · 分类器 micro-F1 96.4%（17 类）</p></div>'
+        + '<div class="grid2">'
+        + '<div class="panel"><h3>答不上最多的 6 类</h3>'
+        + '<div class="buckets">'
+        + '<div class="bk"><span>退换货时效</span><span class="t"><i style="width:100%"></i></span><span class="n">46</span></div>'
+        + '<div class="bk"><span>处方粮资质</span><span class="t"><i style="width:78%"></i></span><span class="n">36</span></div>'
+        + '<div class="bk"><span>多件优惠叠加</span><span class="t"><i style="width:61%"></i></span><span class="n">28</span></div>'
+        + '<div class="bk"><span>跨境商品清关</span><span class="t"><i style="width:48%"></i></span><span class="n">22</span></div>'
+        + '<div class="bk"><span>安装与上门</span><span class="t"><i style="width:33%"></i></span><span class="n">15</span></div>'
+        + '<div class="bk"><span>宠物医疗建议</span><span class="t"><i style="width:26%"></i></span><span class="n">12</span></div>'
+        + '</div>'
+        + '<div style="margin-top:16px;font-size:11.5px;color:#6b6d63;line-height:1.7">分类器不只用来分流，还当探针用：哪一类答不上，就是知识库该补哪里。医疗建议一类标记为「只转人工，不补知识」。</div>'
+        + '</div>'
+        + '<div class="panel"><h3>待审核 badcase</h3>'
+        + '<table class="tbl"><thead><tr><th>问题</th><th>类型</th><th>处理</th></tr></thead><tbody>'
+        + '<tr><td>猫粮能退吗，拆封了</td><td><span class="tag w">缺口</span></td><td>补政策 · 待审</td></tr>'
+        + '<tr><td>处方粮要处方吗</td><td><span class="tag w">缺口</span></td><td>补资质说明</td></tr>'
+        + '<tr><td>两件打折能一起用吗</td><td><span class="tag w">冲突</span></td><td>改话术</td></tr>'
+        + '<tr><td>猫吐了吃什么药</td><td><span class="tag">越界</span></td><td>只转人工</td></tr>'
+        + '<tr><td>香港发货要几天</td><td><span class="tag w">缺口</span></td><td>补清关时效</td></tr>'
+        + '</tbody></table>'
+        + '<div style="margin-top:14px;font-size:11.5px;color:#6b6d63;line-height:1.7">审核通过后回写知识库，同一批题进回归集复测。一轮闭环大约两天。</div>'
+        + '</div>'
+        + '</div>'
+        + '<div class="cols" style="grid-template-columns:1fr 1fr;margin-top:12px">'
+        + '<div class="panel"><h3>补完知识后的复测</h3>'
+        + '<div class="kv"><span>退换货时效（补 6 条政策）</span><b>46 → 4 条/周</b></div>'
+        + '<div class="kv"><span>处方粮资质（补 3 条说明）</span><b>36 → 7 条/周</b></div>'
+        + '<div class="kv"><span>多件优惠（补冲突规则）</span><b>28 → 11 条/周</b></div>'
+        + '<div class="kv"><span>跨境清关（补时效表）</span><b>22 → 5 条/周</b></div>'
+        + '<div class="kv"><span>宠物医疗（不补，只转人工）</span><b>12 → 12 条/周</b></div>'
+        + '</div>'
+        + '<div class="panel"><h3>这条链路怎么跑</h3>'
+        + '<div style="font-size:12.5px;color:#4a4d45;line-height:1.9">'
+        + '<b>1.</b> 分类器给每条会话打主题标签（17 类，micro-F1 96.4%）<br />'
+        + '<b>2.</b> 答不上或转人工的会话进待审队列<br />'
+        + '<b>3.</b> 运营判断是「缺知识」还是「不该答」，后者标记为越界<br />'
+        + '<b>4.</b> 回写知识库，同批题目进回归集复测'
+        + '</div>'
+        + '<div style="margin-top:12px;font-size:11.5px;color:#6b6d63;line-height:1.7">医疗类一律不补知识：模型没有资质给用药建议，补了反而是风险。</div>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+      )
+    }
+  ];
+
+  /* ================= RAG 屏幕 ================= */
+
+  var ragScreens = [
+    {
+      id: "rag-1",
+      title: "01 问答主界面",
+      note: "先确认型号再回答，答案带引用编号，可回溯到手册原文那一段。",
+      html: rag(
+        '<div class="app">'
+        + '<div class="side"><div class="new">＋ 新对话</div><div class="h">历史对话</div>'
+        + '<div class="sess on">万用表测直流电流<small>今天 10:24 · 6 轮</small></div>'
+        + '<div class="sess">FLUKE 87V 量程<small>今天 09:51</small></div>'
+        + '<div class="sess">钳形表怎么选型<small>昨天</small></div>'
+        + '<div class="sess">绝缘电阻测试步骤<small>昨天</small></div>'
+        + '</div>'
+        + '<div class="main">'
+        + '<div class="top"><div class="logo">⚡</div><div class="tt">设备手册多路检索增强问答助手<small>在线 · 知识库 4,182 切片 · 引用可回溯</small></div>'
+        + '<div class="r"><span>流式输出 ✓</span><span class="ghost">清空对话</span></div></div>'
+        + '<div class="chat">'
+        + '<div class="day">今天</div>'
+        + '<div class="msg"><div class="av bot">助手</div><div><div class="bub">你好，我是设备手册检索助手。问之前我会先确认设备型号，答完会给出引用段落。</div>'
+        + '<div class="meta">提示：可以问「如何使用万用表测量电压？」</div></div></div>'
+        + '<div class="msg me"><div class="av">我</div><div><div class="bub">万用表怎么测直流电流？</div></div></div>'
+        + '<div class="msg"><div class="av bot">助手</div><div>'
+        + '<div class="bub">'
+        + '<b>先确认一下：你手上的万用表是哪个型号？</b>'
+        + '<div style="margin-top:8px;color:#94a3b8">不同型号的电流档位置和量程差别很大，我按你确认的型号给步骤。</div>'
+        + '<div class="prog"><div class="sm">阶段进度（已完成 3，进行中 1，状态：待确认）</div>'
+        + '<ul>'
+        + '<li><span class="ok">✓</span><span>型号消歧：命中 2 个候选</span></li>'
+        + '<li><span class="ok">✓</span><span>多路召回：dense 18 · sparse 12 → 融合 21</span></li>'
+        + '<li><span class="ok">✓</span><span>精排：Top5 已就绪</span></li>'
+        + '<li><span class="now">›</span><span>等待你确认型号后生成步骤</span></li>'
+        + '</ul></div>'
+        + '</div></div></div>'
+        + '<div class="msg me"><div class="av">我</div><div><div class="bub">应该是 FLUKE 87V</div></div></div>'
+        + '<div class="msg"><div class="av bot">助手</div><div>'
+        + '<div class="bub">'
+        + '<b>FLUKE 87V 测直流电流：</b>红表笔插 <span style="color:#7dd3a7">10A</span> 或 <span style="color:#7dd3a7">mA</span> 插孔，旋钮打到 <span style="color:#7dd3a7">A⎓</span>，串入回路测量。'
+        + '<div class="srcs">'
+        + '<div class="src"><span class="idx">1</span><span class="tx">87V 用户手册 · 第 12 页「测量电流」<small>串入回路，禁止并联；10A 档连续测量不超过 30 秒</small></span><span class="sc">0.91</span></div>'
+        + '<div class="src"><span class="idx">2</span><span class="tx">87V 用户手册 · 第 37 页「插孔与量程对照表」<small>mA 档内阻 5Ω，10A 档 0.01Ω</small></span><span class="sc">0.87</span></div>'
+        + '</div>'
+        + '</div></div></div>'
+        + '</div>'
+        + '<div class="comp"><div class="inp">继续追问，或点引用编号看原文…</div><div class="send">发送</div></div>'
+        + '<div class="hint">Enter 发送 · Shift + Enter 换行 · 引用编号可跳转原文段落</div>'
+        + '</div></div>'
+      )
+    },
+    {
+      id: "rag-2",
+      title: "02 型号消歧",
+      note: "阈值不是拍的：按真实分数分布穷举 189 组，0.5–0.6 是天然断裂带。",
+      html: rag(
+        '<div class="page">'
+        + '<div class="hd"><h1>型号消歧 · 调试面板</h1><p>query: 「万用表怎么测直流电流」· 189 组阈值定标</p></div>'
+        + '<div class="grid">'
+        + '<div class="glass"><h3>候选型号与分数</h3><div class="cand">'
+        + '<div class="c hi"><div class="r"><span>FLUKE 87V</span><b class="mono" style="color:#7dd3a7">0.82</b></div><div class="track"><i class="ok" style="width:82%"></i></div></div>'
+        + '<div class="c"><div class="r"><span>FLUKE 17B+</span><b class="mono" style="color:#facc15">0.51</b></div><div class="track"><i style="width:51%"></i></div></div>'
+        + '<div class="c"><div class="r"><span>UT61E</span><b class="mono" style="color:#94a3b8">0.12</b></div><div class="track"><i style="width:12%"></i></div></div>'
+        + '</div>'
+        + '<div style="margin-top:14px;display:grid;gap:7px;font-size:11.5px;color:#94a3b8">'
+        + '<div style="display:flex;justify-content:space-between"><span>0.75 以上：直接确认</span><b class="mono" style="color:#7dd3a7">87V ✓</b></div>'
+        + '<div style="display:flex;justify-content:space-between"><span>0.45–0.75：追问一次</span><b class="mono" style="color:#facc15">17B+ 落在区间</b></div>'
+        + '<div style="display:flex;justify-content:space-between"><span>0.08 以下：兜底列出常见型号</span><b class="mono">—</b></div>'
+        + '</div></div>'
+        + '<div class="glass"><h3>分数分布（189 组定标依据）</h3>'
+        + '<div style="display:flex;align-items:flex-end;gap:6px;height:150px;margin:6px 0 10px">'
+        + '<div style="flex:1;background:linear-gradient(180deg,#38bdf8,#818cf8);height:22%;border-radius:4px 4px 0 0"></div>'
+        + '<div style="flex:1;background:linear-gradient(180deg,#38bdf8,#818cf8);height:58%;border-radius:4px 4px 0 0"></div>'
+        + '<div style="flex:1;background:rgba(255,255,255,.12);height:6%;border-radius:4px 4px 0 0"></div>'
+        + '<div style="flex:1;background:rgba(255,255,255,.12);height:4%;border-radius:4px 4px 0 0"></div>'
+        + '<div style="flex:1;background:linear-gradient(180deg,#38bdf8,#818cf8);height:74%;border-radius:4px 4px 0 0"></div>'
+        + '<div style="flex:1;background:linear-gradient(180deg,#38bdf8,#818cf8);height:100%;border-radius:4px 4px 0 0"></div>'
+        + '<div style="flex:1;background:linear-gradient(180deg,#38bdf8,#818cf8);height:64%;border-radius:4px 4px 0 0"></div>'
+        + '</div>'
+        + '<div style="display:flex;justify-content:space-between;font-size:10.5px;color:#64748b"><span>0.2</span><span>0.4</span><span>0.5</span><span>0.6</span><span>0.8</span></div>'
+        + '<div style="margin-top:12px;font-size:11.5px;color:#94a3b8;line-height:1.7">0.5–0.6 之间是空的（0 条），匹配与不匹配分得开，所以把追问区间设在这里，而不是取中间值。</div>'
+        + '</div>'
+        + '</div>'
+        + '<div class="grid" style="margin-top:14px;grid-template-columns:repeat(3,1fr)">'
+        + '<div class="glass"><h3>准确率</h3><div style="font-size:22px;font-weight:800">52.9% → 81.2%</div><div style="font-size:11.5px;color:#94a3b8">189 组阈值穷举</div></div>'
+        + '<div class="glass"><h3>追问率</h3><div style="font-size:22px;font-weight:800">34%</div><div style="font-size:11.5px;color:#94a3b8">其中 91% 一次问清</div></div>'
+        + '<div class="glass"><h3>答错型号</h3><div style="font-size:22px;font-weight:800;color:#7dd3a7">0 次</div><div style="font-size:11.5px;color:#94a3b8">宁可多问，不猜</div></div>'
+        + '</div>'
+        + '<div class="grid" style="margin-top:14px">'
+        + '<div class="glass"><h3>阈值敏感度（同一批 189 组里的 4 个代表点）</h3>'
+        + '<div class="kv"><span class="mono">0.60</span><b>准确率 78.4% · 追问率 41%</b></div>'
+        + '<div class="kv"><span class="mono">0.70</span><b>准确率 80.1% · 追问率 37%</b></div>'
+        + '<div class="kv"><span class="mono">0.75</span><b style="color:#7dd3a7">准确率 81.2% · 追问率 34%（当前）</b></div>'
+        + '<div class="kv"><span class="mono">0.80</span><b>准确率 81.0% · 追问率 29%（误答上升）</b></div>'
+        + '<div style="margin-top:12px;font-size:11.5px;color:#94a3b8;line-height:1.7">0.75 之后准确率不再涨，误答反而抬头，所以停在这里，没有继续往上压追问率。</div>'
+        + '</div>'
+        + '<div class="glass"><h3>追问话术（实际文案）</h3>'
+        + '<div class="bub" style="max-width:none;margin-bottom:8px">你手上的万用表是 <b>FLUKE 87V</b>，还是 <b>17B+</b>？两个型号的电流档位置不一样，我按你确认的给步骤。</div>'
+        + '<div class="bub" style="max-width:none;background:rgba(250,204,21,.08);border-color:rgba(250,204,21,.25)">没找到这个型号的手册。常见的有 87V、17B+、UT61E，你可以告诉我型号，或者描述一下表盘上的标识。</div>'
+        + '<div style="margin-top:12px;font-size:11.5px;color:#94a3b8;line-height:1.7">追问只问一次：问两次用户就开始烦，宁可兜底列常见型号。</div>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+      )
+    },
+    {
+      id: "rag-3",
+      title: "03 知识库导入",
+      note: "按「文件::父标题::标题」建稳定主键，同一小节不重复入库，可看到清洗后的索引健康度。",
+      html: rag(
+        '<div class="page">'
+        + '<div class="hd"><h1>知识库导入</h1><p>4,182 切片 · 32 份设备手册 · 最近更新 2026.07.02</p></div>'
+        + '<div class="grid">'
+        + '<div class="glass"><h3>上传手册</h3>'
+        + '<div class="drop"><b>把 PDF 拖到这里，或点选文件</b>支持图文混排手册；图片单独抽出来做多模态索引</div>'
+        + '<div class="files">'
+        + '<div class="file"><span class="st">已入库</span><span class="nm">FLUKE_87V_用户手册.pdf<small>96 页 · 428 切片 · 图文 212 张</small></span><span class="mono" style="color:#7dd3a7">0 重复</span></div>'
+        + '<div class="file"><span class="st">已入库</span><span class="nm">优利德_UT61E_说明书.pdf<small>72 页 · 315 切片</small></span><span class="mono" style="color:#7dd3a7">0 重复</span></div>'
+        + '<div class="file"><span class="st w">解析中</span><span class="nm">绝缘电阻测试仪_操作手册.pdf<small>58 页 · 解析到 41 / 58</small></span><span class="mono" style="color:#94a3b8">—</span></div>'
+        + '</div></div>'
+        + '<div class="glass"><h3>切片与索引健康度</h3>'
+        + '<div class="kv"><span>切片主键</span><b class="mono">文件::父标题::标题</b></div>'
+        + '<div class="kv"><span>切片数</span><b>429 → 107（同一手册）</b></div>'
+        + '<div class="kv"><span>重复率</span><b style="color:#7dd3a7">31% → 0%</b></div>'
+        + '<div class="kv"><span>噪声率</span><b style="color:#7dd3a7">21.7% → 0%</b></div>'
+        + '<div class="kv"><span>平均切片长度</span><b>186 字</b></div>'
+        + '<div class="kv"><span>图片切片</span><b>212 张（接线图 / 规格表）</b></div>'
+        + '<div style="margin-top:14px;font-size:11.5px;color:#94a3b8;line-height:1.7">早期直接按字符切，同一小节会被重复入库，检索时同一条依据占满 Top5。改成按标题路径做主键后，重复和噪声都归零。</div>'
+        + '</div>'
+        + '</div>'
+        + '<div class="glass" style="margin-top:14px"><h3>切片预览 · 主键与内容</h3>'
+        + '<div class="files">'
+        + '<div class="file"><span class="st">图文</span><span class="nm">87V_用户手册.pdf::第 3 章 测量::3.2 测量电流<small>红表笔插 10A 或 mA 插孔，旋钮打到 A⎓，串入回路…</small></span><span class="mono" style="color:#7dd3a7">186 字 + 2 图</span></div>'
+        + '<div class="file"><span class="st">图文</span><span class="nm">87V_用户手册.pdf::第 3 章 测量::3.4 测量电压<small>并联在负载两端，DC 档内阻 10MΩ…</small></span><span class="mono" style="color:#7dd3a7">164 字 + 1 图</span></div>'
+        + '<div class="file"><span class="st">表格</span><span class="nm">87V_用户手册.pdf::附录 A::量程与精度对照<small>表格整表保留，不做按行切分，避免精度值丢失上下文</small></span><span class="mono" style="color:#7dd3a7">整表</span></div>'
+        + '</div>'
+        + '<div style="margin-top:12px;font-size:11.5px;color:#94a3b8;line-height:1.7">表格整表入库、图片单独成片并挂回所属小节 —— 这两条是图文混排手册能不能用的关键。</div>'
+        + '</div>'
+        + '</div>'
+      )
+    }
+  ];
+
+  window.SCREENS = { cowcode: cowcode, pawpilot: pawpilot, rag: ragScreens };
+})();
+
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- 1. 复制 ---------- */
+  var toast = document.getElementById("toast");
+  var toastTimer = null;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 1800);
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); resolve(); } catch (e) { reject(e); }
+      document.body.removeChild(ta);
+    });
+  }
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest("[data-copy]");
+    if (!el) return;
+    var value = el.getAttribute("data-copy");
+    copyText(value).then(function () {
+      showToast("已复制：" + value);
+    }).catch(function () {
+      showToast("复制失败，请手动选择：" + value);
+    });
+  });
+
+  /* ---------- 2. 导航高亮 ---------- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll("nav a"));
+  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+  if ("IntersectionObserver" in window) {
+    var navIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        navLinks.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id); });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    sections.forEach(function (s) { navIO.observe(s); });
+  }
+
+  /* ---------- 3. 滚动浮现 ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var revealIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); revealIO.unobserve(en.target); }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(function (el) { revealIO.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---------- 4. 本地知识库问答 ---------- */
+  var KB = [
+    {
+      keys: "代表项目 三个项目 作品集 项目 概览 介绍 哪些",
+      alias: "代表项目 三个项目 项目概览 有哪些项目 做了哪些 介绍",
+      title: "三个项目，用的是一套做法",
+      text: "① CowCode｜终端 AI 编程助手（2026.09–10）：给我自己这种人用的终端 Agent，功能只留够用的。工具描述占上下文降了 85%，权限弹窗从 30 次/会话降到 5 次。\n② PawPilot｜宠物零售售后智能体（2026.07–09）：固定步骤走 Workflow，Agent 只负责听懂问题和组织回答。自建 300 题评估集，Recall@5 98%，拒答误放 0%。\n③ 设备手册检索问答（RAG，2026.06–07）：入口先确认型号再检索，型号确认准确率 52.9% → 81.2%，Recall@5 0.759 → 0.981。\n三个的顺序是一样的：先写清这次不做什么，再定怎么算做完，最后才动 prompt。"
+    },
+    {
+      keys: "cowcode 编程助手 终端 ide 插件 工具 上下文 弹窗 权限 沙箱 压缩 保留率 开发者",
+      alias: "cowcode 编程助手 终端 上下文 弹窗 权限 压缩 保留率",
+      title: "CowCode：功能没砍，改了曝露方式",
+      text: "起因是我自己用得不顺。IDE 插件越更新越重，工具描述先把上下文占掉一半，会话一长就开始忘事，写文件还要逐步确认。\n工具一个没砍，改成按当前任务阶段挂载，用不到的不占上下文，描述占用降 85%；长会话做两层压缩，先压过程记录再压结论；有副作用的操作按目录分级放行，越界才问，弹窗 30 → 5 次/会话。\n验收定的是「连续 8 小时不丢上下文」和「常见重构能自动跑完」，长会话保留率 17% → 100%。重构耗时降 60% 这个数是在 6 个固定任务上测的，样本不大，我自己清楚。"
+    },
+    {
+      keys: "pawpilot 宠物 零售 客服 智能体 workflow agent 拒答 转人工 分类器 闭环 缺口",
+      alias: "pawpilot 宠物 售后 拒答 转人工 分类器 缺口",
+      title: "PawPilot：转人工优先于多答",
+      text: "售后问题集中在查单、查物流、问政策，答错的代价比多转一次人工高得多。\n分工是死的：查单、查物流、退款流程写成 Workflow，Agent 只做意图判断和话术。证据不够时先让它自评，低于阈值直接转人工，不给它硬编的机会。\n评估集我自己出了 300 题，分五桶，其中 240 题是应该答得出来的。结果 Recall@5 98%、覆盖度 97%；拒答误放 0%、误拦 15%。误拦这 15% 是我认下来的：宁可多转一次，也别在没有依据时开口。\n另外用 17 类主题分类器统计哪类问题答不上（micro-F1 96.4%），按类补知识，回写后再复测。"
+    },
+    {
+      keys: "rag 检索 设备 手册 型号 消歧 召回 精排 切片 索引 重复率 噪声 消融",
+      alias: "rag 检索 设备手册 型号 消歧 精排 切片 索引 重复率 消融",
+      title: "设备手册 RAG：先确认型号，再检索",
+      text: "运维只说「万用表」，系统得先问清是哪个型号。手册图文混排，接线图和规格表按纯文本切开读不懂，答案还得能指回原文。\n阈值不是拍的：先看真实分数分布，0.5–0.6 之间是空的，说明匹配和不匹配分得开；再按三级过滤穷举 189 组组合定标，准确率 52.9% → 81.2%。宁可多问一句，也不猜型号。\n切片改成按「文件::父标题::标题」做主键，重复率 31% → 0%、噪声 21.7% → 0%。检索做了 6 阶段消融，27 条标注上 Recall@5 从 0.759 到 0.981。27 条不多，只够做相对比较。"
+    },
+    {
+      keys: "评测 衡量 有用 指标 口径 样本 评估集 消融 ab 复现 怎么证明",
+      alias: "评测 衡量 有没有用 指标 口径 样本 评估集 消融 复现 怎么证明",
+      title: "我怎么判断一个功能有没有变好",
+      text: "分三层看，混在一起容易自己骗自己：\n① 检索层：Recall@5、Hit@5，材料到底找没找到；\n② 生成层：RAGAS 的忠实度和相关性，答案有没有编；\n③ 体验层：拒答误放率、误拦率、转人工率、完成时长，用户是不是真省事了。\n另外三件事：评估集要分桶（能答 / 不能答 / 边界），改动用消融一步步看，线上留 trace 之后离线复算。\n我最早就只跑整体准确率，局部退化被平均数盖住了，白改了两周。"
+    },
+    {
+      keys: "为什么 转 结构 工程 土木 背景 转行 产品经理 动机",
+      alias: "为什么转产品 转产品 结构工程 土木 工科 转行 动机 背景",
+      title: "为什么转到 AI 产品",
+      text: "研一开始我就在用 AI 工具写代码、做小工具，用得越多越在意一件事：同样一段模型能力，放进不同场景价值差得很远：有的只是让人打字快一点，有的能替掉一整个流程。判断它值不值得做、该怎么做，就是我想干的活。所以研一把方向定在 AI 产品，从需求拆解和评测切入。\n学的是算量和验算：荷载、边界条件、安全系数，少一个假设结果就是错的。做产品的顺序其实差不多，只是把安全系数换成了评测。\n这一年三个项目是我的检验样本。RAG 那次卡住我的不是模型能力，是我说不清错在哪一层；把评测补上，改动才有方向。\n代价我也清楚：没有大厂协作经验，不懂增长和商业化。这两件事自学补不出来，只能进团队学。"
+    },
+    {
+      keys: "短板 不足 缺点 弱项 经验 没做过 劣势 缺什么 缺哪些",
+      alias: "短板 不足 缺点 弱项 劣势 没做过",
+      title: "现在缺的三样，我知道",
+      text: "① 没在大厂协作过：三个项目都是我一个人做完的，没经历过和研发、设计、运营拉扯排期。校园经历里带过团队、办过活动，但那是学生组织的节奏。\n② 没做过上线：没做灰度、没做营收和留存归因，对上线之后的复杂度只有二手认知。\n③ 用户访谈不够：做过几轮，但没整理成结构化记录，也没有需求池。\n这三样自学补不出来，只能进真实业务里补，这也是我想实习的原因。"
+    },
+    {
+      keys: "工具 figma 墨刀 飞书 notion 原型 技能 python langgraph mcp sql 技术",
+      alias: "工具 figma 墨刀 飞书 notion 原型 技能 python langgraph mcp sql",
+      title: "工具与动手能力",
+      text: "产品侧：Figma、墨刀画原型，飞书文档和 Notion 写 PRD，方案对比我习惯列成表。\n技术侧：Python、LangGraph、MCP 能自己搭 demo，Claude Code 用来做原型验证；SQL 取数，能读日志定位 badcase。写不了生产代码，但能判断一个方案在工程上贵不贵。\n语言：CET-6，英文技术文档和论文能读。"
+    },
+    {
+      keys: "联系 邮箱 电话 微信 投递 简历 到岗 实习 时间",
+      alias: "联系 邮箱 电话 微信 投递 简历 到岗 实习时间",
+      title: "怎么联系我",
+      text: "邮箱：19840863620@163.com\n邮件是我这边最快的方式，看到就会回。\n每周 5 天，可实习 6 个月，能尽快到岗（湖南大学，硕士在读，2028 届）。"
+    },
+    {
+      keys: "agent workflow 边界 什么时候 用 判断 该不该 分工",
+      alias: "agent workflow 分工 什么时候用 该不该用 agent还是workflow",
+      title: "什么交给 Agent，什么写成 Workflow",
+      text: "我先看三件事：\n① 步骤固定吗？固定的写成 Workflow，能测、能回滚、成本也固定。\n② 需要临场判断吗？需要的那一小段交给 Agent，其余照样固化。\n③ 错了谁承担？代价高的（退款、医疗、权限）必须加闸门和人工确认。\nPawPilot 就是这么分的：查单查物流是 Workflow，意图和话术是 Agent，拒答闸门单独一层。CowCode 反过来，编程本身就是不确定任务，所以以 Agent 为主，但写文件这类有副作用的动作做成权限分级。"
+    },
+    {
+      keys: "prd 文档 交付物 产出 方案对比 用例",
+      alias: "prd 交付物 产出 方案对比 文档 用例",
+      title: "每个项目留下什么",
+      text: "四样东西，项目结束时都会齐：\n① PRD：给谁用、解决哪一步、这次不做什么、怎么算做完；\n② 方案对比表：两三个候选，成本、延迟、可解释性、失效点各占一列；\n③ 评测集：分桶的样本和口径说明；\n④ 迭代记录：每次改了什么、指标怎么动、为什么。\n换个人接手，也能复现我当时的判断。"
+    }
+  ];
+
+  var answerTitle = document.getElementById("answerTitle");
+  var answerText = document.getElementById("answerText");
+  var answerMeta = document.getElementById("answerMeta");
+  var answerContactBtn = document.getElementById("answerContactBtn");
+  var askInput = document.getElementById("askInput");
+
+  function normalize(s) { return String(s).toLowerCase().replace(/[\s，。？！、,.?!:：;；"'“”‘’（）()【】\[\]\/]/g, ""); }
+
+  var STOP = "的了吗呢吧啊怎么什么我你他这那个是";
+
+  function hitScore(q, pool, base, per) {
+    var score = 0;
+    String(pool).split(/\s+/).forEach(function (k) {
+      if (!k || k.length < 2) return;
+      if (q.indexOf(k) > -1) score += base + k.length * per;
+    });
+    return score;
+  }
+
+  function search(query) {
+    var q = normalize(query);
+    if (!q) return null;
+    var ranked = KB.map(function (item) {
+      // 别名词命中权重最高，其次 keys；单字不算命中，避免"项目"这类泛词抢分
+      var score = hitScore(q, item.alias || "", 3, 2.5) + hitScore(q, item.keys || "", 1, 1.2);
+      // 字级重合只作兜底，且不看正文，防止长文本天然吸分
+      if (score === 0) {
+        var pool = normalize(String(item.alias || "") + String(item.keys || ""));
+        var chars = q.split("").filter(function (c) { return STOP.indexOf(c) === -1; });
+        var hit = 0;
+        chars.forEach(function (c) { if (pool.indexOf(c) > -1) hit++; });
+        score = chars.length ? (hit / chars.length) * 3.5 : 0;
+      }
+      return { item: item, score: score };
+    }).sort(function (a, b) { return b.score - a.score; });
+
+    var top = ranked[0];
+    if (!top || top.score < 4) return null;
+    return top.item;
+  }
+
+  function render(item, query) {
+    if (!item) {
+      answerTitle.textContent = "这一条我还没有可靠答案";
+      answerText.textContent = "这条我没做过，也不打算编。\n换个问法试试，或者点上面的按钮：「代表项目」「RAG 评测怎么做」「你的短板」。\n想直接聊：" + "19840863620@163.com";
+      answerMeta.textContent = "未命中知识库 · " + (query ? "提问：" + query : "本地知识库");
+      answerContactBtn.hidden = false;
+      return;
+    }
+    answerTitle.textContent = item.title;
+    answerText.textContent = item.text;
+    answerMeta.textContent = "本地知识库 · 无需 API Key" + (query ? " · 提问：" + query : "");
+    answerContactBtn.hidden = true;
+  }
+
+  var askForm = document.getElementById("askForm");
+  askForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var q = askInput.value.trim();
+    if (!q) { askInput.focus(); return; }
+    render(search(q), q);
+  });
+
+  document.querySelectorAll(".quick-questions button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var q = btn.getAttribute("data-question");
+      askInput.value = q;
+      render(search(q), q);
+    });
+  });
+
+  /* ---------- 5. 案例弹窗 ---------- */
+  var CASES = {
+    cowcode: {
+      title: "CowCode｜终端 AI 编程助手",
+      meta: ["个人项目 · 独立完成", "2026.09 – 2026.10", "角色：产品定义 · 方案取舍 · 评测体系 · PRD 输出"],
+      bg: '<h4>问题</h4><p>开发者一天里大量时间花在重复改码和查错上。市面上已有 IDE 插件和终端 Agent，但用下来有三个摩擦点：</p><ul>'
+        + '<li>插件越做越重，工具描述本身挤占上下文，模型还没干活就先被塞满；</li>'
+        + '<li>长会话到一定程度就「忘事」，用户被迫反复复述需求；</li>'
+        + '<li>每写一个文件都要点确认，所谓自动执行等于没有，写代码的节奏一直被打断。</li></ul>'
+        + '<h4>目标与非目标</h4><p>目标用户是习惯命令行的个人开发者。想要的东西很朴素：够用就行，别臃肿。<br />'
+        + '这次不做：图形 IDE、团队协作与代码托管，也不追求工具数量齐全。</p>'
+        + '<h4>我的交付物</h4><ul><li>PRD：用户画像、场景清单、范围与非目标、验收标准</li><li>方案对比表：工具暴露策略 3 选 1、上下文压缩 2 层 vs 1 层</li><li>评测用例：8 小时连续会话脚本 + 自动执行可用性检查表</li></ul>',
+      how: '<h4>取舍一：工具变多，砍功能还是改暴露方式</h4><p>候选方案有三：只留 5 个核心工具、全量暴露后靠模型自己筛、按任务阶段按需暴露。'
+        + '第一种最省上下文但砍掉了能力上限；第二种把选择成本转给模型，实测误选率高。最后选第三种：工具按「当前阶段需要什么」动态挂载，'
+        + '<b>工具描述占用上下文 −85%</b>，能力一个没少。</p>'
+        + '<h4>取舍二：长会话，扩窗口还是做压缩</h4><p>扩窗口成本高且不解决「什么该留」的问题。改成两层压缩：先按任务阶段压缩过程记录，再对结论做结构化摘要。'
+        + '代价是会丢细节，所以保留「可回溯原文」的入口，用<b>连续 8 小时不丢上下文</b>当验收标准。</p>'
+        + '<h4>取舍三：自动执行的信任边界</h4><p>不追求「全部自动」，而是分层：读操作直接放行，写操作按目录范围分级，越界一律确认；'
+        + '再加沙箱兜底，把不可逆操作挡在外面。结果是<b>权限弹窗 30 → 5 次/会话</b>，但危险动作仍要人点头。</p>',
+      eval: '<h4>验收标准（先定，后做）</h4><ul><li>连续 8 小时会话，上下文不丢关键约束</li><li>常见重构任务可以自动执行，不逐步确认</li><li>工具描述占用上下文不随工具数线性增长</li></ul>'
+        + '<h4>结果</h4><div class="metric-grid">'
+        + '<div class="metric-cell"><b>−85%</b><span>工具描述占上下文</span></div>'
+        + '<div class="metric-cell"><b>30 → 5</b><span>权限弹窗，次/会话</span></div>'
+        + '<div class="metric-cell"><b>17% → 100%</b><span>长会话保留率</span></div>'
+        + '<div class="metric-cell"><b>−60%</b><span>重构任务耗时</span></div></div>'
+        + '<div class="note"><b>口径说明：</b>保留率 = 8 小时脚本会话中，模型仍能正确复述早期关键约束的检查点占比；弹窗数为同脚本会话内的确认框计数；重构耗时按 6 个固定任务的前后对比，单机单模型，样本量小，只用于方向判断。</div>',
+      review: '<h4>做对的地方</h4><ul><li>先把「不做什么」写进 PRD，砍掉了大量功能冲动</li><li>把「自动执行可用」当成体验指标而非技术指标，直接决定了权限设计</li><li>评测先行：没有用例就不改 prompt</li></ul>'
+        + '<h4>判断错的地方</h4><ul><li>一开始想用扩大上下文窗口解决遗忘，做完才发现成本涨了、体验没变好</li><li>压缩策略早期只做一层，把「结论」和「过程」一起压，导致细节回溯失效</li></ul>'
+        + '<h4>如果继续做</h4><p>把评测脚本扩到多人真实使用场景（现在只有我自己的 6 个任务），并补上任务失败归因的分类，否则「−60%」很难推到别人身上。</p>'
+    },
+    pawpilot: {
+      title: "PawPilot｜宠物零售服务智能体（Workflow + Agent）",
+      meta: ["个人项目 · 独立完成", "2026.07 – 2026.09", "角色：产品方案设计 · 评测体系 · 知识缺口分析"],
+      bg: '<h4>问题</h4><p>宠物零售的售后有三个特点：问题高频且相似，答案依赖政策和订单状态，答错代价高（一句错的退款承诺就是一次纠纷）。'
+        + '客服要同时顾三头：<b>答得准、该转就转、真能把事办掉</b>。</p>'
+        + '<h4>为什么不直接接个模型</h4><p>纯 LLM 的方案我试了三处都不行：政策有时效，订单要实时查，模型还会为了让回答显得有用而自己补细节。'
+        + '所以这道题不是选哪个模型，是<b>边界划在哪</b>。</p>'
+        + '<h4>我的交付物</h4><ul><li>PRD：意图清单（含 17 类主题）、三级转人工策略、话术与拒答模板</li>'
+        + '<li>方案对比表：纯 Agent / 纯 Workflow / 混合</li><li>300 题五桶评估集与评分口径</li><li>badcase 回写 SOP</li></ul>',
+      how: '<h4>取舍一：纯 Agent vs 纯 Workflow vs 混合</h4><p>纯 Agent 灵活但不可测；纯 Workflow 可测但答不了开放问法。选混合：'
+        + '<b>确定性步骤全部固化</b>（查单、查物流、退款流程），只把「意图判断和话术生成」交给 Agent。这样它跳不了步，不是靠 prompt 求它别跳。</p>'
+        + '<h4>取舍二：多答一点还是少答一点</h4><p>胡答一句和多转一次人工，代价不对等。所以我让<b>拒答优先于多答</b>，'
+        + '证据不足时先让模型自评置信度，低于阈值直接转人工，不硬编答案。这是明确的产品决策，不是技术妥协。</p>'
+        + '<h4>取舍三：知识怎么长出来</h4><p>不靠人工猜缺口，而是让线上 badcase 自己聚：17 类主题分类器打出「哪一类答不上」，'
+        + '运营按类补知识库，回写后复测，一趟走完就是<b>答不上 → 定位缺口 → 回写 → 复测</b>。</p>',
+      eval: '<h4>评估集怎么建</h4><p>300 题分五桶：可作答（240）、政策边界、多意图混合、应拒答、应转人工。'
+        + '分桶的意义是让「答得准」和「知道什么时候别答」分开评估，否则整体准确率会掩盖拒答退化。</p>'
+        + '<h4>结果</h4><div class="metric-grid">'
+        + '<div class="metric-cell"><b>98%</b><span>Recall@5（240 题可作答）</span></div>'
+        + '<div class="metric-cell"><b>97%</b><span>知识覆盖度</span></div>'
+        + '<div class="metric-cell"><b>0%</b><span>拒答误放率</span></div>'
+        + '<div class="metric-cell"><b>15%</b><span>拒答误拦率</span></div>'
+        + '<div class="metric-cell"><b>96.4%</b><span>主题分类 micro-F1（17 类）</span></div></div>'
+        + '<div class="note"><b>口径说明：</b>误放 = 证据不足却被判为可作答的比例（越低越安全）；误拦 = 本可作答却被转人工的比例。'
+        + '<b>15% 的误拦是我主动选的代价</b>：宁多转人工，也不让模型在没有依据时开口。样本为自建 300 题，非真实线上分布。</div>',
+      review: '<h4>做对的地方</h4><ul><li>把「拒答」当第一优先级指标，而不是准确率的附属品</li><li>用架构限制代替 prompt 约束，稳定性差别很大</li><li>分类器不只做分流，还当知识缺口的探针</li></ul>'
+        + '<h4>判断错的地方</h4><ul><li>最初只有「可作答 / 不可作答」两桶，测不出多意图混合场景的退化，后来才补桶</li><li>早期想让模型直接调工具下单，风险太大，改成「生成待确认操作」由人执行</li></ul>'
+        + '<h4>如果继续做</h4><p>15% 误拦还有优化空间：可以先做一次低成本的澄清追问（「你指的是哪一单？」），把一部分误拦转成可作答，而不是直接转人工。'
+        + '另外需要真实会话分布来校准阈值，自建 300 题只能定方向。</p>'
+    },
+    rag: {
+      title: "设备手册检索问答系统（RAG）",
+      meta: ["个人项目 · 独立完成", "2026.06 – 2026.07", "角色：产品方案 · 评测体系"],
+      bg: '<h4>问题</h4><p>运维查设备参数时有三个真实约束：</p><ul>'
+        + '<li>他只会说「万用表怎么测电流」，不会报型号；系统擅自选一个型号回答，等于给错答案；</li>'
+        + '<li>手册是图文混排，接线图和规格表被当纯文本切碎后，检索到的片段读不懂；</li>'
+        + '<li>答案必须能回到原文那一段，否则运维不敢照着操作。</li></ul>'
+        + '<h4>目标拆成三层</h4><p>能确认型号（消歧）→ 能找到正确片段（检索）→ 能给出可回溯的答案（生成）。'
+        + '这三层分别定指标，不混在一起看。</p>'
+        + '<h4>我的交付物</h4><ul><li>PRD：三类查询场景、消歧交互、置信度与兜底话术</li>'
+        + '<li>方案对比表：切片策略 3 选 1、召回组合 6 阶段消融设计</li><li>27 条标注集 + 索引健康度看板</li></ul>',
+      how: '<h4>取舍一：型号消歧的阈值不能拍</h4><p>先看真实分数分布：0.5–0.6 区间是天然断裂带，说明匹配和不匹配之间有清晰间隔。'
+        + '于是按三级过滤（0.75 直接确认 / 0.45 追问 / 0.08 兜底）<b>穷举 189 组阈值组合</b>定标，'
+        + '而不是用一个「看起来合理」的数字。准确率 <b>52.9% → 81.2%</b>。</p>'
+        + '<h4>取舍二：宁可多问一次，也不答错型号</h4><p>交互上做了明确选择：置信度中等时追问「你说的是 A 型还是 B 型」，'
+        + '而不是猜一个。代价是多一步操作，收益是错误率大幅下降。</p>'
+        + '<h4>取舍三：切片以结构为主键</h4><p>改用「文件::父标题::标题」做稳定主键，同一小节不再重复入库，'
+        + '重复率 <b>31% → 0%</b>、噪声 <b>21.7% → 0%</b>。检索质量先修索引，再谈模型。</p>',
+      eval: '<h4>三层评测，各管一段</h4><ul>'
+        + '<li><b>索引健康度</b>：切片重复率、噪声率，看库本身干不干净</li>'
+        + '<li><b>检索层</b>：6 阶段消融（dense / sparse / hybrid / +HyDE+RRF / +精排 / full），27 条标注上 Recall@5、Hit@5</li>'
+        + '<li><b>答案层</b>：RAGAS 双轨 + 自研 judge 三指标，交叉验证「有没有编」</li></ul>'
+        + '<h4>结果</h4><div class="metric-grid">'
+        + '<div class="metric-cell"><b>0.759 → 0.981</b><span>Recall@5（27 条标注）</span></div>'
+        + '<div class="metric-cell"><b>0.778 → 1.000</b><span>Hit@5</span></div>'
+        + '<div class="metric-cell"><b>52.9% → 81.2%</b><span>型号确认准确率（189 组阈值）</span></div>'
+        + '<div class="metric-cell"><b>31% → 0%</b><span>切片重复率</span></div>'
+        + '<div class="metric-cell"><b>21.7% → 0%</b><span>噪声率</span></div></div>'
+        + '<div class="note"><b>口径说明：</b>27 条标注集用于检索层消融，样本偏小，只做相对比较不做绝对承诺；'
+        + 'RAGAS 的 answer_correctness 在部分样本上是 nan，未纳入结论；知识图谱方案未实现，不在成果里。</div>',
+      review: '<h4>做对的地方</h4><ul><li>先修索引再调模型，避免在脏数据上做无用功</li><li>用分数分布决定阈值，而不是直觉</li><li>消融按阶段拆，能说清每一步贡献多少</li></ul>'
+        + '<h4>判断错的地方</h4><ul><li>一开始只看整体准确率，局部退化被平均数掩盖了，后来才做分层看板</li><li>早期把接线图当纯文本切片，检索到的片段无法读懂，返工重做</li></ul>'
+        + '<h4>如果继续做</h4><p>27 条标注太少，需要扩到 100+ 并做双人标注一致性检验；另外要补「答案可回溯」的点击率，'
+        + '这才是运维真正在意的体验指标。</p>'
+    }
+  };
+
+  var dialog = document.getElementById("caseDialog");
+  var modalTitle = document.getElementById("modalTitle");
+  var modalMeta = document.getElementById("modalMeta");
+  var modalBody = document.getElementById("modalBody");
+
+  function renderCase(key, tabKey) {
+    var c = CASES[key];
+    if (!c) return;
+    modalTitle.textContent = c.title;
+    modalMeta.innerHTML = c.meta.map(function (m) {
+      return '<span class="meta-chip">' + m + '</span>';
+    }).join("");
+    modalBody.innerHTML =
+      '<div class="tab-panel" data-panel="bg">' + c.bg + '</div>' +
+      '<div class="tab-panel" data-panel="how">' + c.how + '</div>' +
+      '<div class="tab-panel" data-panel="eval">' + c.eval + '</div>' +
+      '<div class="tab-panel" data-panel="review">' + c.review + '</div>';
+    switchTab(tabKey || "bg");
+  }
+
+  function switchTab(key) {
+    document.querySelectorAll("#modalTabs .tab").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-tab") === key);
+    });
+    document.querySelectorAll("#modalBody .tab-panel").forEach(function (p) {
+      p.classList.toggle("active", p.getAttribute("data-panel") === key);
+    });
+  }
+
+  document.getElementById("modalTabs").addEventListener("click", function (e) {
+    var btn = e.target.closest(".tab");
+    if (btn) switchTab(btn.getAttribute("data-tab"));
+  });
+
+  var currentCase = "";
+
+  function openCase(key, tabKey) {
+    currentCase = key;
+    renderCase(key, tabKey);
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "open");
+    dialog.querySelector(".modal-wrap").scrollTop = 0;
+  }
+
+  document.querySelectorAll("[data-open]").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      openCase(btn.getAttribute("data-open"), btn.getAttribute("data-tab"));
+    });
+  });
+
+  document.querySelectorAll(".project-card").forEach(function (card) {
+    card.addEventListener("click", function () { openCase(card.getAttribute("data-project")); });
+    card.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCase(card.getAttribute("data-project")); }
+    });
+  });
+
+  dialog.querySelector(".modal-close").addEventListener("click", function () { dialog.close(); });
+  dialog.addEventListener("click", function (e) { if (e.target === dialog) dialog.close(); });
+
+  /* ---------- 6. 界面画廊 ---------- */
+  var GALLERY = window.SCREENS || {};
+  var GNAME = { cowcode: "CowCode", pawpilot: "PawPilot", rag: "设备手册检索问答系统" };
+  var GNOTE = {
+    cowcode: "终端界面按项目的真实交互重建：布局、键位与提示层级来自项目本身，命令和输出为演示数据。",
+    pawpilot: "工作台界面按项目方案重建：三栏结构与判定信息对应实际流程，会话内容为演示数据。",
+    rag: "界面按项目前端源码（knowledge/front/chat.html）的布局与视觉重建：对话内容为演示数据。"
+  };
+
+  var gDialog = document.getElementById("galleryDialog");
+  if (!GALLERY || !Object.keys(GALLERY).length) {
+    document.querySelectorAll("[data-gallery]").forEach(function (b) { b.remove(); });
+    var mg = document.getElementById("modalGal");
+    if (mg) mg.remove();
+    return;
+  }
+  var gFrame = document.getElementById("galFrame");
+  var gStage = document.getElementById("galStage");
+  var gTitle = document.getElementById("galTitle");
+  var gNote = document.getElementById("galNote");
+  var gThumbs = document.getElementById("galThumbs");
+  var gCaption = document.getElementById("galCaption");
+  var gIdx = document.getElementById("galIdx");
+  var gList = [];
+  var gIndex = 0;
+
+  function fitFrame() {
+    var w = gStage.clientWidth;
+    if (!w) return;
+    gFrame.style.transform = "scale(" + (w / 1280) + ")";
+    gFrame.style.left = "0px";
+  }
+
+  function paintGallery() {
+    var s = gList[gIndex];
+    if (!s) return;
+    gFrame.srcdoc = s.html;
+    gCaption.textContent = s.note || "";
+    gIdx.textContent = (gIndex + 1) + " / " + gList.length;
+    Array.prototype.forEach.call(gThumbs.children, function (b, i) {
+      b.classList.toggle("on", i === gIndex);
+    });
+    fitFrame();
+  }
+
+  function openGallery(key, index) {
+    var list = GALLERY[key];
+    if (!list || !list.length) return;
+    gList = list;
+    gIndex = index || 0;
+    gTitle.textContent = (GNAME[key] || "项目") + " · 界面";
+    gNote.textContent = GNOTE[key] || "";
+    gThumbs.innerHTML = "";
+    list.forEach(function (item, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = '<span class="n">' + ("0" + (i + 1)).slice(-2) + "</span>" + item.title.replace(/^\d+\s*/, "");
+      b.addEventListener("click", function () { gIndex = i; paintGallery(); });
+      gThumbs.appendChild(b);
+    });
+    paintGallery();
+    if (dialog.open) dialog.close();
+    if (typeof gDialog.showModal === "function") gDialog.showModal();
+    else gDialog.setAttribute("open", "open");
+    setTimeout(fitFrame, 30);
+  }
+
+  document.querySelectorAll("[data-gallery]").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      openGallery(btn.getAttribute("data-gallery"), 0);
+    });
+  });
+
+  document.getElementById("modalGal").addEventListener("click", function () {
+    if (currentCase) openGallery(currentCase, 0);
+  });
+
+  document.getElementById("galPrev").addEventListener("click", function () {
+    gIndex = (gIndex - 1 + gList.length) % gList.length; paintGallery();
+  });
+  document.getElementById("galNext").addEventListener("click", function () {
+    gIndex = (gIndex + 1) % gList.length; paintGallery();
+  });
+  gDialog.querySelector("[data-gal-close]").addEventListener("click", function () { gDialog.close(); });
+  gDialog.addEventListener("click", function (e) { if (e.target === gDialog) gDialog.close(); });
+  gDialog.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") { gIndex = (gIndex - 1 + gList.length) % gList.length; paintGallery(); }
+    if (e.key === "ArrowRight") { gIndex = (gIndex + 1) % gList.length; paintGallery(); }
+  });
+  window.addEventListener("resize", fitFrame);
+  if ("ResizeObserver" in window) new ResizeObserver(fitFrame).observe(gStage);
+
+  /* ---------- 7. 年份 ---------- */
+  var y = new Date().getFullYear();
+  if (y > 2026) {
+    var f = document.querySelector("footer span");
+    if (f) f.textContent = "© " + y + " 张博 · AI Product Portfolio";
+  }
+})();
+</script>
+</body>
+</html>
