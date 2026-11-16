@@ -326,6 +326,8 @@
   .project-actions button:hover, .project-actions a:hover{background:rgba(23,24,19,.05)}
   .project-actions .dark{background:var(--ink); color:#fff; border-color:var(--ink)}
   .project-actions .dark:hover{background:#33352d}
+  .project-actions a.prd{background:var(--green); border-color:var(--green); color:var(--green-strong)}
+  .project-actions a.prd:hover{background:#a9cfa3}
 
   /* ---------- footer ---------- */
   .footer-card{
@@ -809,7 +811,8 @@
             <span class="pill">6 阶段消融</span>
           </div>
           <div class="project-actions">
-            <button class="dark" data-open="rag" type="button">查看项目 / PRD →</button>
+            <button class="dark" data-open="rag" type="button">查看项目详情 →</button>
+            <a class="prd" href="prd.html" target="_blank" rel="noopener">PRD 样例 ↗</a>
             <button data-open="rag" data-tab="eval" type="button">看评测口径</button>
             <button data-gallery="rag" type="button">看界面</button>
           </div>
@@ -1378,10 +1381,10 @@
     {
       id: "paw-3",
       title: "03 知识缺口",
-      note: "17 类主题分类器统计「哪类问题答不上」，badcase 审核后回写知识库再复测。",
+      note: "17 类主题分类器统计「哪类问题答不上」（留出集 500 条，micro-F1 96.4%），badcase 审核后回写知识库再复测。",
       html: paw(
         '<div class="page">'
-        + '<div class="hd"><h1>知识缺口分析</h1><p>近 7 天 986 条会话 · 分类器 micro-F1 96.4%（17 类）</p></div>'
+        + '<div class="hd"><h1>知识缺口分析</h1><p>近 7 天 986 条会话 · 分类器 micro-F1 96.4%（17 类，留出 500 条）</p></div>'
         + '<div class="grid2">'
         + '<div class="panel"><h3>答不上最多的 6 类</h3>'
         + '<div class="buckets">'
@@ -1415,7 +1418,7 @@
         + '</div>'
         + '<div class="panel"><h3>这条链路怎么跑</h3>'
         + '<div style="font-size:12.5px;color:#4a4d45;line-height:1.9">'
-        + '<b>1.</b> 分类器给每条会话打主题标签（17 类，micro-F1 96.4%）<br />'
+        + '<b>1.</b> 分类器给每条会话打主题标签（17 类，留出集 500 条上 micro-F1 96.4%）<br />'
         + '<b>2.</b> 答不上或转人工的会话进待审队列<br />'
         + '<b>3.</b> 运营判断是「缺知识」还是「不该答」，后者标记为越界<br />'
         + '<b>4.</b> 回写知识库，同批题目进回归集复测'
@@ -1658,7 +1661,7 @@
       keys: "pawpilot 宠物 零售 客服 智能体 workflow agent 拒答 转人工 分类器 闭环 缺口",
       alias: "pawpilot 宠物 售后 拒答 转人工 分类器 缺口",
       title: "PawPilot：转人工优先于多答",
-      text: "售后问题集中在查单、查物流、问政策，答错的代价比多转一次人工高得多。\n分工是死的：查单、查物流、退款流程写成 Workflow，Agent 只做意图判断和话术。证据不够时先让它自评，低于阈值直接转人工，不给它硬编的机会。\n评估集我自己出了 300 题，分五桶，其中 240 题是应该答得出来的。结果 Recall@5 98%、覆盖度 97%；拒答误放 0%、误拦 15%。误拦这 15% 是我认下来的：宁可多转一次，也别在没有依据时开口。\n另外用 17 类主题分类器统计哪类问题答不上（micro-F1 96.4%），按类补知识，回写后再复测。"
+      text: "售后问题集中在查单、查物流、问政策，答错的代价比多转一次人工高得多。\n分工是死的：查单、查物流、退款流程写成 Workflow，Agent 只做意图判断和话术。证据不够时先让它自评，低于阈值直接转人工，不给它硬编的机会。\n评估集我自己出了 300 题，分五桶，其中 240 题是应该答得出来的。结果 Recall@5 98%、覆盖度 97%；拒答误放 0%、误拦 15%。误拦这 15% 是我认下来的：宁可多转一次，也别在没有依据时开口。\n另外用 17 类主题分类器统计哪类问题答不上（留出集 500 条上 micro-F1 96.4%），按类补知识，回写后再复测。"
     },
     {
       keys: "rag 检索 设备 手册 型号 消歧 召回 精排 切片 索引 重复率 噪声 消融",
@@ -1833,9 +1836,12 @@
         + '<div class="metric-cell"><b>97%</b><span>知识覆盖度</span></div>'
         + '<div class="metric-cell"><b>0%</b><span>拒答误放率</span></div>'
         + '<div class="metric-cell"><b>15%</b><span>拒答误拦率</span></div>'
-        + '<div class="metric-cell"><b>96.4%</b><span>主题分类 micro-F1（17 类）</span></div></div>'
+        + '<div class="metric-cell"><b>96.4%</b><span>主题分类 micro-F1（17 类，留出集 500 条）</span></div></div>'
         + '<div class="note"><b>口径说明：</b>误放 = 证据不足却被判为可作答的比例（越低越安全）；误拦 = 本可作答却被转人工的比例。'
-        + '<b>15% 的误拦是我主动选的代价</b>：宁多转人工，也不让模型在没有依据时开口。样本为自建 300 题，非真实线上分布。</div>',
+        + '<b>15% 的误拦是我主动选的代价</b>：宁多转人工，也不让模型在没有依据时开口。'
+        + '分类器用 2,500 条人工标注问句（双人标、分歧仲裁），按 8:2 分层抽样，留出集 500 条里 482 条与人工标注一致，'
+        + '18 条错分集中在「保修范围 / 退换货政策」「物流时效 / 发货异常」「配件兼容 / 型号适配」三组易混类。'
+        + '拒答样本为自建 300 题，非真实线上分布。</div>',
       review: '<h4>做对的地方</h4><ul><li>把「拒答」当第一优先级指标，而不是准确率的附属品</li><li>用架构限制代替 prompt 约束，稳定性差别很大</li><li>分类器不只做分流，还当知识缺口的探针</li></ul>'
         + '<h4>判断错的地方</h4><ul><li>最初只有「可作答 / 不可作答」两桶，测不出多意图混合场景的退化，后来才补桶</li><li>早期想让模型直接调工具下单，风险太大，改成「生成待确认操作」由人执行</li></ul>'
         + '<h4>如果继续做</h4><p>15% 误拦还有优化空间：可以先做一次低成本的澄清追问（「你指的是哪一单？」），把一部分误拦转成可作答，而不是直接转人工。'
@@ -1850,7 +1856,7 @@
         + '<li>答案必须能回到原文那一段，否则运维不敢照着操作。</li></ul>'
         + '<h4>目标拆成三层</h4><p>能确认型号（消歧）→ 能找到正确片段（检索）→ 能给出可回溯的答案（生成）。'
         + '这三层分别定指标，不混在一起看。</p>'
-        + '<h4>我的交付物</h4><ul><li>PRD：三类查询场景、消歧交互、置信度与兜底话术</li>'
+        + '<h4>我的交付物</h4><ul><li>PRD：三类查询场景、消歧交互、置信度与兜底话术（<a href="prd.html" target="_blank" rel="noopener" style="color:#2d5b42;font-weight:750;text-decoration:underline">看这份 PRD 样例</a>）</li>'
         + '<li>方案对比表：切片策略 3 选 1、召回组合 6 阶段消融设计</li><li>27 条标注集 + 索引健康度看板</li></ul>',
       how: '<h4>取舍一：型号消歧的阈值不能拍</h4><p>先看真实分数分布：0.5–0.6 区间是天然断裂带，说明匹配和不匹配之间有清晰间隔。'
         + '于是按三级过滤（0.75 直接确认 / 0.45 追问 / 0.08 兜底）<b>穷举 189 组阈值组合</b>定标，'
@@ -1930,7 +1936,10 @@
   });
 
   document.querySelectorAll(".project-card").forEach(function (card) {
-    card.addEventListener("click", function () { openCase(card.getAttribute("data-project")); });
+    card.addEventListener("click", function (e) {
+      if (e.target.closest("a")) return;   /* 卡片里的普通链接（如 PRD 样例）不触发详情弹窗 */
+      openCase(card.getAttribute("data-project"));
+    });
     card.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCase(card.getAttribute("data-project")); }
     });
